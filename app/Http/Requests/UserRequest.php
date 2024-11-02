@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UserRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class UserRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -19,10 +21,40 @@ class UserRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules()
+    {
+        $rules = [
+            'name' => 'required|max:50',
+            'password' => $this->is('v1/user/update/*') ? 'nullable|min:8'  : 'required|min:8',
+            'password_confirmation' => $this->is('v1/user/update/*') ? 'nullable|same:password'  : 'required|same:password',
+            'position' => 'required|max:50',
+            'role' => 'required|in:admin,user',
+        ];
+        return $rules;
+    }
+
+    public function messages()
     {
         return [
-            //
+            'name.required' => 'Nama wajib diisi.',
+            'name.max' => 'Nama tidak boleh lebih dari 50 karakter.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password harus memiliki setidaknya 8 karakter.',
+            'password_confirmation.required' => 'Konfirmasi Password wajib diisi.',
+            'password_confirmation.same' => 'Password tidak sama.',
+            'position.required' => 'Jabatan Wajib Diisi',
+            'position.max' => 'Jabatan Tidak Boleh melebihi 25 Karakter',
+            'role.required' => 'Role wajib diisi.',
+            'role.in' => 'Role harus dipilih dari opsi yang tersedia.',
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'code' => 422,
+            'message' => 'Check your validation',
+            'errors' => $validator->errors()
+        ]));
     }
 }
