@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CMS\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+// route  api user //
+Route::prefix('v1/user')->controller(UserController::class)->group(function () {
+    Route::get('/', 'getAllData');
+    Route::post('/create', 'createData');
+    Route::get('/get/{id}', 'getDataById');
+    Route::post('/update/{id}', 'updateDataById');
+    Route::delete('/delete/{id}', 'deleteData');
 });
