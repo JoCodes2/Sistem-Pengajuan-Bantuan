@@ -16,7 +16,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('Admin.Dashboard');
+});
+Route::get('/submissions', function () {
+    return view('Admin.Submissions');
+});
+Route::get('/group', function () {
+    return view('Admin.Group');
+});
+Route::get('/member-group', function () {
+    return view('Admin.MemberGroup');
 });
 
 // route  api user //
