@@ -12,16 +12,21 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('member_grups', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('id_grup')->constrained('grups');
+            $table->uuid('id')->primary();
+            $table->uuid('id_grup'); // Menggunakan UUID untuk foreign key
             $table->string('name');
             $table->string('address');
             $table->date('ttl');
             $table->string('nik');
             $table->string('status');
             $table->timestamps();
+
+            // Menambahkan foreign key secara manual untuk UUID
+            $table->foreign('id_grup')->references('id')->on('grups')->onDelete('cascade');
         });
     }
+
+
 
     /**
      * Reverse the migrations.
