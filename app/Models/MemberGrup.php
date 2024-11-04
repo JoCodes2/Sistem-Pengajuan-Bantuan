@@ -9,7 +9,14 @@ class MemberGrup extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id_grup', 'name', 'address', 'ttl', 'nik', 'status'];
+    protected $fillable = [
+        'id_grup',
+        'name',
+        'address',
+        'ttl',
+        'nik',
+        'status'
+    ];
 
     public function grup()
     {

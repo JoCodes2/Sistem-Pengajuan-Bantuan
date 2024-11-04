@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('grups', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary(); // Ubah menjadi UUID
             $table->string('grup_name');
             $table->timestamps();
         });

@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('submissions', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('id_grup')->constrained('grups');
+            $table->uuid('id')->primary();
+            $table->uuid('id_grup'); // Menggunakan UUID untuk foreign key
             $table->date('date');
             $table->text('description');
             $table->string('file_proposal');
