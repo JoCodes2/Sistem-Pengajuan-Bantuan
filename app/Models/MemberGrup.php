@@ -2,20 +2,21 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class MemberGrup extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $fillable = [
         'id',
         'id_grup',
         'name',
         'address',
-        'tempat',
-        'tanggal_lahir',
+        'place_birth',
+        'date_birth',
         'nik',
         'status',
         'created_at',
@@ -24,6 +25,6 @@ class MemberGrup extends Model
 
     public function grup()
     {
-        return $this->hasMany(Grup::class, 'id_grup', 'id');
+        return $this->belongsTo(Grup::class, 'id_grup', 'id');
     }
 }
