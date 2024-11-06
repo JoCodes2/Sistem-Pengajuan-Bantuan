@@ -11,6 +11,7 @@ class Grup extends Model
     use HasFactory;
 
     protected $fillable = [
+        
         'grup_name',
     ];
 

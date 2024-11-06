@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('member_grups', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('id_grup'); // Menggunakan UUID untuk foreign key
+            $table->foreignUuid('id_grup')->constrained('grups');
             $table->string('name');
             $table->string('address');
             $table->date('ttl');
