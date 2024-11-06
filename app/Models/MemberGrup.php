@@ -10,16 +10,20 @@ class MemberGrup extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'id_grup',
         'name',
         'address',
-        'ttl',
+        'tempat',
+        'tanggal_lahir',
         'nik',
-        'status'
+        'status',
+        'created_at',
+        'updated_at',
     ];
 
     public function grup()
     {
-        return $this->belongsTo(Grup::class, 'id_grup');
+        return $this->hasMany(Grup::class, 'id_grup', 'id');
     }
 }
