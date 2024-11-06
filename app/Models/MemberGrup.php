@@ -18,7 +18,8 @@ class MemberGrup extends Model
         'id_grup',
         'name',
         'address',
-        'ttl',
+        'tempat',
+        'tanggal_lahir',
         'nik',
         'status',
         'created_at',
@@ -26,8 +27,8 @@ class MemberGrup extends Model
     ];
 
     // Relasi dengan model Ormas
-    public function member_grup()
+    public function grup()
     {
-        return $this->belongsTo(MemberGrup::class, 'id_grup');
+        return $this->belongsTo(Grup::class, 'id_grup');
     }
 }

@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignUuid('id_grup')->constrained('grups');
             $table->string('name');
             $table->string('address');
-            $table->date('ttl');
+            $table->string('tempat');
+            $table->date('tanggal_lahir');
             $table->string('nik');
             $table->string('status');
             $table->timestamps();
