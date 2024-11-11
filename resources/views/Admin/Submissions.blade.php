@@ -4,51 +4,113 @@
         <div class="card-header d-flex justify-content-between">
             <h5 class="fw-bold fs-10"><i class="fa-solid fa-book px-1"></i>DATA PENGAJUAN BANTUAN</h5>
         </div>
-            <div class="table-responsive text-nowrap px-4">
-                <div class="d-flex flex-column flex-md-row justify-content-between align-items-center pb-2">
-                    <div class="d-flex">
-                        <div class="form-group">
-                            <label for="pageSizeSelect">Show : </label>
-                            <select id="pageSizeSelect" class="form-control" style="height: 39.9px !important;">
-                                <option value="5">5</option>
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="d-flex">
-                        <div class="form-group">
-                            <label for="end_date">Search: </label>
-                            <div class="input-icon">
-                                <input type="text" class="form-control" style="height: 39.9px !important;"
-                                    id="searchInput" placeholder="Search for...">
-                            </div>
-                        </div>
+        <div class="table-responsive text-nowrap px-4">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center pb-2">
+                <div class="d-flex">
+                    <div class="form-group">
+                        <label for="pageSizeSelect">Show : </label>
+                        <select id="pageSizeSelect" class="form-control" style="height: 39.9px !important;">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                        </select>
                     </div>
                 </div>
-                <table class="table table-borderless" id="loadData">
-                    <thead class="table-primary text-center">
-                      <tr>
-                        <th>No</th>
-                        <th>Tanggal Pengajuan</th>
-                        <th>Nama Kelompok</th>
-                        <th>NIK/Nama Anggota</th>
-                        <th>Deskripsi Pengajuan</th>
-                        <th>File Proposal</th>
-                        <th>Status Pengajuan</th>
-                        <th>Actions</th>
-                      </tr>
-                    </thead>
-                    <tbody class=" text-center">
-
-                    </tbody>
-                </table>
-                <div class="pagination-container d-flex  align-items-center py-2">
-                    <button id="prevPage" class="btn btn-sm btn-outline-secondary me-2">Previous</button>
-                    <span id="currentPage" class="align-self-center">1</span>
-                    <button id="nextPage" class="btn btn-sm btn-outline-secondary ms-2">Next</button>
+                <div class="d-flex">
+                    <div class="form-group">
+                        <label for="end_date">Search: </label>
+                        <div class="input-icon">
+                            <input type="text" class="form-control" style="height: 39.9px !important;"
+                                id="searchInput" placeholder="Search for...">
+                        </div>
+                    </div>
                 </div>
             </div>
+            <table class="table table-borderless" id="loadData">
+                <thead class="table-primary text-center">
+                    <tr>
+                    <th>No</th>
+                    <th>Tanggal Pengajuan</th>
+                    <th>Nama Kelompok</th>
+                    <th>NIK/Nama Anggota</th>
+                    <th>Deskripsi Pengajuan</th>
+                    <th>File Proposal</th>
+                    <th>Status Pengajuan</th>
+                    <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody class=" text-center">
+
+                </tbody>
+            </table>
+            <div class="pagination-container d-flex  align-items-center py-2">
+                <button id="prevPage" class="btn btn-sm btn-outline-secondary me-2">Previous</button>
+                <span id="currentPage" class="align-self-center">1</span>
+                <button id="nextPage" class="btn btn-sm btn-outline-secondary ms-2">Next</button>
+            </div>
+        </div>
+        {{-- modal detail submission --}}
+        <div class="modal fade" id="detailDataModal" tabindex="-1" aria-labelledby="detailDataModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailDataModalLabel">Detail Data Pengajuan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <thead>
+                            <tr>
+                                <td>Tanggal Pengajuan</td>
+                                <td>:</td>
+                                <th id="detailDate"></th>
+                            </tr>
+                            <tr>
+                                <td>Nama Kelompok</td>
+                                <td>:</td>
+                                <th id="detailGroupName"></th>
+                            </tr>
+                            <tr>
+                                <td>Status Pengajuan</td>
+                                <td>:</td>
+                                <th id="detailStatus"></th>
+                            </tr>
+                            <tr>
+                                <td>File Proposal</td>
+                                <td>:</td>
+                                <th id="detailFileProposal"></th>
+                            </tr>
+                            <tr>
+                                <td>Deskripsi Pengajuan</td>
+                                <td>:</td>
+                                <th id="detailDescription"></th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <hr>
+                    <h6 class="fw-bold fs-10">Anggota Kelompok</h6>
+                    <div class="table-responsive text-nowrap">
+                        <table class="table" id="memberListTable">
+                            <thead class="text-center">
+                                <tr>
+                                    <th>No</th>
+                                    <th>NIK/Nama</th>
+                                    <th>Tempat Tanggal Lahit</th>
+                                    <th>Status Perkawinan</th>
+                                    <th>Alamat</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     </div>
 @endsection
 @section('scripts')
@@ -117,7 +179,7 @@ $(document).ready(function() {
                     <td rowspan="${rowSpan}">${item.file_proposal}</td>
                     <td rowspan="${rowSpan}"><span class="${statusRequest.statusClass}"> ${statusRequest.statusText}</span></td>
                     <td rowspan="${rowSpan}">
-                        <button class="btn btn-sm btn-outline-info" id="detailData"><i class="fa-solid fa-eye"></i></button>
+                        <button class="btn btn-sm btn-outline-info" id="detailData" data-id="${item.id}"><i class="fa-solid fa-eye"></i></button>
                         <button class="btn btn-sm btn-outline-primary" id="getDataById"><i class="fa-solid fa-pen-to-square"></i></button>
                         <button class="btn btn-sm btn-outline-danger" id="deleteData"><i class="fa-solid fa-trash"></i></button>
                     </td>
@@ -220,6 +282,58 @@ $(document).ready(function() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
+
+$(document).on("click", "#detailData", function() {
+    const id = $(this).data("id");
+    console.log(id);
+
+    $.ajax({
+        url: `v1/submissions/get/${id}`,
+        method: "GET",
+        dataType: "json",
+        success: function(response) {
+            if (response.code === 200 && Array.isArray(response.data) && response.data.length > 0) {
+                const data = response.data[0];
+                console.log(data);
+
+                const statusInfo = getStatusInfo(data.status_submissions);
+
+                // Fill modal fields
+                $("#detailDate").text(formatDate(data.date));
+                $("#detailGroupName").text(data.grup.grup_name);
+                $("#detailDescription").text(data.description);
+                $("#detailFileProposal").attr("href", `/path/to/files/${data.file_proposal}`).text(data.file_proposal);
+                $("#detailStatus").text(statusInfo.statusText).attr("class", statusInfo.statusClass);
+
+                // Populate member list table
+                const memberListTable = $("#memberListTable tbody");
+                memberListTable.empty();
+                data.grup.member_grup.forEach((member, index) => {
+                    memberListTable.append(`
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td><strong class="fw-bold fs-10">${member.nik}</strong><br> ${member.name}</td>
+                            <td><strong class="fw-bold fs-10">${member.place_birth}</strong><br> ${formatDate(member.date_birth)}</td>
+                            <td>${member.status}</td>
+                            <td>${member.address}</td>
+                        </tr>
+                    `);
+                });
+
+                // Show modal
+                $("#detailDataModal").modal("show");
+            } else {
+                alert("Data tidak ditemukan.");
+            }
+        },
+        error: function() {
+            alert("Gagal mengambil data detail.");
+        }
+    });
+});
+
+
 });
 </script>
 

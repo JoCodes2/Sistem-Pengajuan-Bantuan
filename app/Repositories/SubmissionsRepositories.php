@@ -81,7 +81,15 @@ class SubmissionsRepositories implements SubmissionInterfaces
         }
     }
 
-    public function getDataById($id) {}
+    public function getDataById($id)
+    {
+        $data = $this->submissionModel::with(['grup', 'grup.member_grup'])->where('id', $id)->get();
+        if ($data->isEmpty()) {
+            return $this->dataNotFound();
+        } else {
+            return $this->success($data);
+        }
+    }
     public function updateDataById(SubmissionRequest $request, $id) {}
     public function deleteData($id) {}
 }
