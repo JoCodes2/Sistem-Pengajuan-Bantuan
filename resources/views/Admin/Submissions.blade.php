@@ -153,15 +153,6 @@ $(document).ready(function() {
     function renderTable(data) {
         $("#loadData tbody").empty();
 
-        if (data.length === 0) {
-            $("#loadData tbody").append(`
-                <tr>
-                    <td colspan="8" class="text-center"><i class="fa-solid fa-face-sad-tear px-1"></i>Data tidak ditemukan</td>
-                </tr>
-            `);
-            return;
-        }
-
         const offset = (currentPage - 1) * pageSize;
         const paginatedData = data.slice(offset, offset + pageSize);
 
@@ -240,6 +231,12 @@ $(document).ready(function() {
                 if (response.code === 200 && response.data) {
                     dataCache = response.data;
                     filterAndPaginateData();
+                }else{
+                    $("#loadData tbody").append(`
+                        <tr>
+                            <td colspan="8" class="text-center"><i class="fa-solid fa-face-sad-tear px-1"></i>Data tidak ditemukan</td>
+                        </tr>
+                    `);
                 }
             },
             error: function() {
