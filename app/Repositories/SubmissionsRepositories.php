@@ -9,6 +9,9 @@ use App\Models\MemberGrup;
 use App\Models\Submission;
 use App\Traits\HttpResponseTraits;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 
 class SubmissionsRepositories implements SubmissionInterfaces
 {
@@ -46,12 +49,23 @@ class SubmissionsRepositories implements SubmissionInterfaces
                 'grup_name' => $request->input('grup_name')
             ]);
 
+            $fileProposal = null;
+            if ($request->hasFile('file_proposal')) {
+                $file = $request->file('file_proposal');
+                $extension = $file->getClientOriginalExtension();
+                $filename = 'PROPOSAL-PENGAJUAN' . Str::random(15) . '.' . $extension;
+                Storage::makeDirectory('uploads/file-proposal-pengajuan');
+                $file->move(public_path('uploads/file-proposal-pengajuan'), $filename);
+                $fileProposal = 'uploads/file-proposal-pengajuan/' . $filename;
+            }
+
+            // Menyimpan Submission dengan path file
             $submission = $this->submissionModel::create([
                 'id_grup' => $group->id,
                 'date' => $request->input('date'),
                 'status_submissions' => $request->input('status_submissions'),
                 'description' => $request->input('description'),
-                'file_proposal' => $request->input('file_proposal')
+                'file_proposal' => $fileProposal, 
             ]);
 
             $membersData = $request->input('members');

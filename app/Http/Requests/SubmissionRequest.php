@@ -29,13 +29,12 @@ class SubmissionRequest extends FormRequest
 
             // Kolom tabel Submissions
             'status_submissions' => 'required|in:review,rejected,approved',
-            'date' => 'required|date',
             'description' => 'required|string',
-            'file_proposal' => 'required',
+            'file_proposal' => 'required|file|mimes:pdf|max:2048',
 
-            // Kolom tabel Member Grup
-            'members' => 'required|array|min:1',
-            'members.*.name' => 'required|string|max:255',
+            // Validasi untuk setiap anggota grup (members array)
+            'members' => 'required|array', // Pastikan 'members' adalah array
+            'members.*.name' => 'required|string|max:255', // Validasi untuk setiap member's name
             'members.*.address' => 'required|string|max:255',
             'members.*.place_birth' => 'required|string|max:255',
             'members.*.date_birth' => 'required|date',
@@ -60,18 +59,22 @@ class SubmissionRequest extends FormRequest
         return [
             'grup_name.required' => 'Form ini wajib diisi.',
             'status_submissions.required' => 'Form ini wajib diisi.',
-            'date.required' => 'Form ini wajib diisi.',
             'description.required' => 'Form ini wajib diisi.',
             'file_proposal.required' => 'Form ini wajib diisi.',
             'file_proposal.file' => 'File proposal harus berupa file.',
-            'members.required' => 'Form ini wajib diisi.',
-            'members.*.name.required' => 'Form ini wajib diisi.',
-            'members.*.address.required' => 'Form ini wajib diisi.',
-            'members.*.place_birth.required' => 'Form ini wajib diisi.',
-            'members.*.date_birth.required' => 'Form ini wajib diisi.',
-            'members.*.nik.required' => 'Form ini wajib diisi.',
-            'members.*.nik.unique' => 'NIK sudah terdaftar dalam kelompok lain dalam 5 tahun terakhir.',
-            'members.*.status.required' => 'Form ini wajib diisi.',
+            'file_proposal.mimes' => 'File yang diupload harus dalam format pdf.',
+            'file_proposal.max' => 'File proposal tidak boleh lebih dari 2 MB.',
+
+            // Pesan error untuk setiap anggota
+            'members.required' => 'Anggota grup harus diisi.',
+            'members.array' => 'Anggota grup harus berupa array.',
+            'members.*.name.required' => 'Nama Anggota wajib diisi.',
+            'members.*.address.required' => 'Alamat Anggota wajib diisi.',
+            'members.*.place_birth.required' => 'Tempat Lahir Anggota wajib diisi.',
+            'members.*.date_birth.required' => 'Tanggal Lahir Anggota wajib diisi.',
+            'members.*.nik.required' => 'NIK Anggota wajib diisi.',
+            'members.*.nik.unique' => 'NIK Anggota sudah terdaftar dalam kelompok lain dalam 5 tahun terakhir.',
+            'members.*.status.required' => 'Status Anggota wajib diisi.',
         ];
     }
 

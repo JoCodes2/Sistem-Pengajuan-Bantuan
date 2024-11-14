@@ -1,6 +1,6 @@
 @extends('Layouts.Base')
 @section('content')
-<div class="card">
+    <div class="card">
         <div class="card-header d-flex justify-content-between">
             <h5 class="fw-bold fs-10"><i class="fa-solid fa-book px-1"></i>DATA PENGAJUAN BANTUAN</h5>
         </div>
@@ -51,66 +51,65 @@
         </div>
         {{-- modal detail submission --}}
         <div class="modal fade" id="detailDataModal" tabindex="-1" aria-labelledby="detailDataModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="detailDataModalLabel">Detail Data Pengajuan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <table>
-                        <thead>
-                            <tr>
-                                <td>Tanggal Pengajuan</td>
-                                <td>:</td>
-                                <th id="detailDate"></th>
-                            </tr>
-                            <tr>
-                                <td>Nama Kelompok</td>
-                                <td>:</td>
-                                <th id="detailGroupName"></th>
-                            </tr>
-                            <tr>
-                                <td>Status Pengajuan</td>
-                                <td>:</td>
-                                <th id="detailStatus"></th>
-                            </tr>
-                            <tr>
-                                <td>File Proposal</td>
-                                <td>:</td>
-                                <th id="detailFileProposal"></th>
-                            </tr>
-                            <tr>
-                                <td>Deskripsi Pengajuan</td>
-                                <td>:</td>
-                                <th id="detailDescription"></th>
-                            </tr>
-                        </thead>
-                    </table>
-                    <hr>
-                    <h6 class="fw-bold fs-10">Anggota Kelompok</h6>
-                    <div class="table-responsive text-nowrap">
-                        <table class="table" id="memberListTable">
-                            <thead class="text-center">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detailDataModalLabel">Detail Data Pengajuan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table>
+                            <thead>
                                 <tr>
-                                    <th>No</th>
-                                    <th>NIK/Nama</th>
-                                    <th>Tempat Tanggal Lahit</th>
-                                    <th>Status Perkawinan</th>
-                                    <th>Alamat</th>
+                                    <td>Tanggal Pengajuan</td>
+                                    <td>:</td>
+                                    <th id="detailDate"></th>
+                                </tr>
+                                <tr>
+                                    <td>Nama Kelompok</td>
+                                    <td>:</td>
+                                    <th id="detailGroupName"></th>
+                                </tr>
+                                <tr>
+                                    <td>Status Pengajuan</td>
+                                    <td>:</td>
+                                    <th id="detailStatus"></th>
+                                </tr>
+                                <tr>
+                                    <td>File Proposal</td>
+                                    <td>:</td>
+                                    <th id="detailFileProposal"></th>
+                                </tr>
+                                <tr>
+                                    <td>Deskripsi Pengajuan</td>
+                                    <td>:</td>
+                                    <th id="detailDescription"></th>
                                 </tr>
                             </thead>
-                            <tbody class="text-center"></tbody>
                         </table>
+                        <hr>
+                        <h6 class="fw-bold fs-10">Anggota Kelompok</h6>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table" id="memberListTable">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>NIK/Nama</th>
+                                        <th>Tempat Tanggal Lahit</th>
+                                        <th>Status Perkawinan</th>
+                                        <th>Alamat</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
             </div>
-        </div>
-    </div>
-
+         </div>
     </div>
 @endsection
 @section('scripts')
