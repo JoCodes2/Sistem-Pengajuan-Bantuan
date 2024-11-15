@@ -299,7 +299,7 @@ $(document).on("click", "#detailData", function() {
                 $("#detailDate").text(formatDate(data.date));
                 $("#detailGroupName").text(data.grup.grup_name);
                 $("#detailDescription").text(data.description);
-                $("#detailFileProposal").attr("href", `/path/to/files/${data.file_proposal}`).text(data.file_proposal);
+                $("#detailFileProposal").attr("href", `${data.file_proposal}`).text(data.file_proposal);
                 $("#detailStatus").text(statusInfo.statusText).attr("class", statusInfo.statusClass);
 
                 // Populate member list table

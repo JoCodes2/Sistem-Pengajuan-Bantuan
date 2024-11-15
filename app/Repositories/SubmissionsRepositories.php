@@ -58,14 +58,15 @@ class SubmissionsRepositories implements SubmissionInterfaces
                 $file->move(public_path('uploads/file-proposal-pengajuan'), $filename);
                 $fileProposal = 'uploads/file-proposal-pengajuan/' . $filename;
             }
+            $dateSubmission = now('Asia/Makassar');
 
             // Menyimpan Submission dengan path file
             $submission = $this->submissionModel::create([
                 'id_grup' => $group->id,
-                'date' => $request->input('date'),
-                'status_submissions' => $request->input('status_submissions'),
+                'date' => $dateSubmission,
+                'status_submissions' => 'review',
                 'description' => $request->input('description'),
-                'file_proposal' => $fileProposal, 
+                'file_proposal' => $fileProposal,
             ]);
 
             $membersData = $request->input('members');
