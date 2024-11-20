@@ -17,13 +17,12 @@ class Grup extends Model
         'created_at',
         'updated_at',
     ];
-
-    public function Submission()
+  
+    public function submission()
     {
         return $this->hasOne(Submission::class, 'id_grup', 'id');
     }
-
-    public function MemberGrup()
+    public function member_grup()
     {
         return $this->hasMany(MemberGrup::class, 'id_grup', 'id');
     }

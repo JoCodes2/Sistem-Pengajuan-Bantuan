@@ -2,14 +2,24 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Submission extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
-    protected $fillable = ['id_grup', 'date', 'description', 'file_proposal'];
+    protected $fillable = [
+        'id',
+        'id_grup',
+        'date',
+        'status_submissions',
+        'description',
+        'file_proposal',
+        'created_at',
+        'updated_at'
+    ];
 
     public function grup()
     {
