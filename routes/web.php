@@ -27,6 +27,9 @@ Route::get('/group', function () {
 Route::get('/member-group', function () {
     return view('Admin.MemberGroup');
 });
+Route::get('/user', function () {
+    return view('Admin.User');
+});
 
 // route  api user //
 Route::prefix('v1/user')->controller(UserController::class)->group(function () {
