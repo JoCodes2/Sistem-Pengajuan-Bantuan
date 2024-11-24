@@ -53,14 +53,13 @@ class SubmissionsRepositories implements SubmissionInterfaces
             if ($request->hasFile('file_proposal')) {
                 $file = $request->file('file_proposal');
                 $extension = $file->getClientOriginalExtension();
-                $filename = 'PROPOSAL-PENGAJUAN' . Str::random(15) . '.' . $extension;
+                $filename = 'Proposal-Pengajuan-' . Str::random(15) . '.' . $extension;
                 Storage::makeDirectory('uploads/file-proposal-pengajuan');
                 $file->move(public_path('uploads/file-proposal-pengajuan'), $filename);
-                $fileProposal = 'uploads/file-proposal-pengajuan/' . $filename;
+                $fileProposal = $filename;
             }
             $dateSubmission = now('Asia/Makassar');
 
-            // Menyimpan Submission dengan path file
             $submission = $this->submissionModel::create([
                 'id_grup' => $group->id,
                 'date' => $dateSubmission,
@@ -105,6 +104,61 @@ class SubmissionsRepositories implements SubmissionInterfaces
             return $this->success($data);
         }
     }
-    public function updateDataById(SubmissionRequest $request, $id) {}
-    public function deleteData($id) {}
+    public function updateDataById(SubmissionRequest $request, $id)
+    {
+        try {
+            $data = $this->submissionModel::where('id', $id)->first();
+            if (!$data) {
+                return $this->dataNotFound();
+            }
+            $data->date = now('Asia/Makassar');
+            $data->description = $request->input('description');
+
+            if ($request->hasFile('file_proposal')) {
+                $file = $request->file('file_proposal');
+                $extension = $file->getClientOriginalExtension();
+                $filename = 'Proposal-Pengajuan-' . Str::random(15) . '.' . $extension;
+                Storage::makeDirectory('uploads/file-proposal-pengajuan');
+                $file->move(public_path('uploads/file-proposal-pengajuan'), $filename);
+                $oldFilePath = public_path('uploads/file-proposal-pengajuan/' . $data->file_produk_hukum);
+                if (file_exists($oldFilePath)) {
+                    unlink($oldFilePath);
+                }
+
+                $data->file_proposal = $filename;
+            }
+
+            $data->update();
+
+            return $this->success($data);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), 400, $th, class_basename($this), __FUNCTION__);
+        }
+    }
+
+    public function deleteData($id)
+    {
+        $submission = $this->submissionModel::find($id);
+
+        if (!$submission) {
+            return $this->dataNotFound();
+        }
+
+        $fileProposal = $submission->file_proposal;
+        if ($fileProposal && File::exists(public_path('uploads/file-proposal-pengajuan/' . $fileProposal))) {
+            File::delete(public_path('uploads/file-proposal-pengajuan/' . $fileProposal));
+        }
+
+        $grup = $submission->grup;
+        if ($grup) {
+            foreach ($grup->member_grup as $member) {
+                $member->delete();
+            }
+
+            $grup->delete();
+        }
+        $submission->delete();
+
+        return $this->success();
+    }
 }
