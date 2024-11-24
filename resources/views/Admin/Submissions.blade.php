@@ -1,6 +1,6 @@
 @extends('Layouts.Base')
 @section('content')
-<div class="card">
+    <div class="card">
         <div class="card-header d-flex justify-content-between">
             <h5 class="fw-bold fs-10"><i class="fa-solid fa-book px-1"></i>DATA PENGAJUAN BANTUAN</h5>
         </div>
@@ -51,66 +51,67 @@
         </div>
         {{-- modal detail submission --}}
         <div class="modal fade" id="detailDataModal" tabindex="-1" aria-labelledby="detailDataModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="detailDataModalLabel">Detail Data Pengajuan</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <table>
-                        <thead>
-                            <tr>
-                                <td>Tanggal Pengajuan</td>
-                                <td>:</td>
-                                <th id="detailDate"></th>
-                            </tr>
-                            <tr>
-                                <td>Nama Kelompok</td>
-                                <td>:</td>
-                                <th id="detailGroupName"></th>
-                            </tr>
-                            <tr>
-                                <td>Status Pengajuan</td>
-                                <td>:</td>
-                                <th id="detailStatus"></th>
-                            </tr>
-                            <tr>
-                                <td>File Proposal</td>
-                                <td>:</td>
-                                <th id="detailFileProposal"></th>
-                            </tr>
-                            <tr>
-                                <td>Deskripsi Pengajuan</td>
-                                <td>:</td>
-                                <th id="detailDescription"></th>
-                            </tr>
-                        </thead>
-                    </table>
-                    <hr>
-                    <h6 class="fw-bold fs-10">Anggota Kelompok</h6>
-                    <div class="table-responsive text-nowrap">
-                        <table class="table" id="memberListTable">
-                            <thead class="text-center">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detailDataModalLabel">Detail Data Pengajuan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table>
+                            <thead>
                                 <tr>
-                                    <th>No</th>
-                                    <th>NIK/Nama</th>
-                                    <th>Tempat Tanggal Lahit</th>
-                                    <th>Status Perkawinan</th>
-                                    <th>Alamat</th>
+                                    <td>Tanggal Pengajuan</td>
+                                    <td>:</td>
+                                    <th id="detailDate"></th>
+                                </tr>
+                                <tr>
+                                    <td>Nama Kelompok</td>
+                                    <td>:</td>
+                                    <th id="detailGroupName"></th>
+                                </tr>
+                                <tr>
+                                    <td>Status Pengajuan</td>
+                                    <td>:</td>
+                                    <th id="detailStatus"></th>
+                                </tr>
+                                <tr>
+                                    <td>File Proposal</td>
+                                    <td>:</td>
+                                    <th >
+                                        <a href="" id="detailFileProposal" class="text-decoration-none" download></a>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td>Deskripsi Pengajuan</td>
+                                    <td>:</td>
+                                    <th id="detailDescription"></th>
                                 </tr>
                             </thead>
-                            <tbody class="text-center"></tbody>
                         </table>
+                        <hr>
+                        <h6 class="fw-bold fs-10">Anggota Kelompok</h6>
+                        <div class="table-responsive text-nowrap">
+                            <table class="table" id="memberListTable">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>NIK/Nama</th>
+                                        <th>Tempat Tanggal Lahit</th>
+                                        <th>Status Perkawinan</th>
+                                        <th>Alamat</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center"></tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-
     </div>
 @endsection
 @section('scripts')
@@ -159,7 +160,7 @@ $(document).ready(function() {
         paginatedData.forEach(function(item, index) {
             let rowSpan = item.grup.member_grup.length;
             let statusRequest = getStatusInfo(item.status_submissions);
-
+            let fileProposalUrl = '/uploads/file-proposal-pengajuan/' + item.file_proposal;
             let row = `
                 <tr>
                     <td rowspan="${rowSpan}">${index + 1 + offset}</td>
@@ -167,12 +168,14 @@ $(document).ready(function() {
                     <td rowspan="${rowSpan}"><strong class="fw-bold fs-10">${item.grup.grup_name}</strong></td>
                     <td><strong class="fw-bold fs-10">${item.grup.member_grup[0].nik}</strong><br> ${item.grup.member_grup[0].name}</td>
                     <td rowspan="${rowSpan}">${item.description}</td>
-                    <td rowspan="${rowSpan}">${item.file_proposal}</td>
+                    <td rowspan="${rowSpan}">
+                        <a href="${fileProposalUrl}" download class="text-decoration-none">${item.file_proposal}</a>
+                    </td>
                     <td rowspan="${rowSpan}"><span class="${statusRequest.statusClass}"> ${statusRequest.statusText}</span></td>
                     <td rowspan="${rowSpan}">
                         <button class="btn btn-sm btn-outline-info" id="detailData" data-id="${item.id}"><i class="fa-solid fa-eye"></i></button>
-                        <button class="btn btn-sm btn-outline-primary" id="getDataById"><i class="fa-solid fa-pen-to-square"></i></button>
-                        <button class="btn btn-sm btn-outline-danger" id="deleteData"><i class="fa-solid fa-trash"></i></button>
+                        <button class="btn btn-sm btn-outline-primary" id="getDataById" data-id="${item.id}"><i class="fa-solid fa-pen-to-square"></i></button>
+                        <button class="btn btn-sm btn-outline-danger" id="deleteData" data-id ="${item.id}"><i class="fa-solid fa-trash"></i></button>
                     </td>
                 </tr>
             `;
@@ -281,57 +284,158 @@ $(document).ready(function() {
     });
 
 
-$(document).on("click", "#detailData", function() {
-    const id = $(this).data("id");
-    console.log(id);
+    $(document).on("click", "#detailData", function() {
+        const id = $(this).data("id");
 
-    $.ajax({
-        url: `v1/submissions/get/${id}`,
-        method: "GET",
-        dataType: "json",
-        success: function(response) {
-            if (response.code === 200 && Array.isArray(response.data) && response.data.length > 0) {
-                const data = response.data[0];
-                console.log(data);
-
-                const statusInfo = getStatusInfo(data.status_submissions);
-
-                // Fill modal fields
-                $("#detailDate").text(formatDate(data.date));
-                $("#detailGroupName").text(data.grup.grup_name);
-                $("#detailDescription").text(data.description);
-                $("#detailFileProposal").attr("href", `/path/to/files/${data.file_proposal}`).text(data.file_proposal);
-                $("#detailStatus").text(statusInfo.statusText).attr("class", statusInfo.statusClass);
-
-                // Populate member list table
-                const memberListTable = $("#memberListTable tbody");
-                memberListTable.empty();
-                data.grup.member_grup.forEach((member, index) => {
-                    memberListTable.append(`
-                        <tr>
-                            <td>${index + 1}</td>
-                            <td><strong class="fw-bold fs-10">${member.nik}</strong><br> ${member.name}</td>
-                            <td><strong class="fw-bold fs-10">${member.place_birth}</strong><br> ${formatDate(member.date_birth)}</td>
-                            <td>${member.status}</td>
-                            <td>${member.address}</td>
-                        </tr>
-                    `);
-                });
-
-                // Show modal
-                $("#detailDataModal").modal("show");
-            } else {
-                alert("Data tidak ditemukan.");
+        function getStatusMember(status) {
+            switch (status) {
+                case 'marry':
+                    return 'Kawin';  // Menambahkan 'return' agar nilai dikembalikan
+                case 'single':  // Perbaikan typo: 'singgle' menjadi 'single'
+                    return 'Belum Kawin';
+                case 'divorced alive':
+                    return 'Cerai Hidup';
+                case 'divorced dead':
+                    return 'Cerai Mati';
+                default:
+                    return 'Not Found';  // Menambahkan return pada default case
             }
-        },
-        error: function() {
-            alert("Gagal mengambil data detail.");
         }
+
+        $.ajax({
+            url: `v1/submissions/get/${id}`,
+            method: "GET",
+            dataType: "json",
+            success: function(response) {
+                if (response.code === 200 && Array.isArray(response.data) && response.data.length > 0) {
+                    const data = response.data[0];
+                    console.log(data);
+
+                    const statusInfo = getStatusInfo(data.status_submissions);
+                    let fileProposalUrl = '/uploads/file-proposal-pengajuan/' + data.file_proposal;
+
+
+                    // Fill modal fields
+                    $("#detailDate").text(formatDate(data.date));
+                    $("#detailGroupName").text(data.grup.grup_name);
+                    $("#detailDescription").text(data.description);
+                    $("#detailFileProposal").text(data.file_proposal).attr("href", fileProposalUrl);
+                    $("#detailStatus").text(statusInfo.statusText).attr("class", statusInfo.statusClass);
+
+                    // Populate member list table
+                    const memberListTable = $("#memberListTable tbody");
+                    memberListTable.empty();
+                    data.grup.member_grup.forEach((member, index) => {
+                        let statusMember = getStatusMember(member.status);
+                        memberListTable.append(`
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td><strong class="fw-bold fs-10">${member.nik}</strong><br> ${member.name}</td>
+                                <td><strong class="fw-bold fs-10">${member.place_birth}</strong><br> ${formatDate(member.date_birth)}</td>
+                                <td>${statusMember}</td>
+                                <td>${member.address}</td>
+                            </tr>
+                        `);
+                    });
+
+                    $("#detailDataModal").modal("show");
+                } else {
+                    alert("Data tidak ditemukan.");
+                }
+            },
+            error: function() {
+                alert("Gagal mengambil data detail.");
+            }
+        });
+    })
+
+    function successAlert(message) {
+        Swal.fire({
+            title: 'Berhasil!',
+            text: message,
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 1000,
+        })
+    }
+
+    function errorAlert() {
+        Swal.fire({
+            title: 'Error',
+            text: 'Terjadi kesalahan!',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 1000,
+        });
+    }
+
+    function reloadBrowsers() {
+        setTimeout(function() {
+            location.reload();
+        }, 1500);
+    }
+
+
+    function confirmAlert(message, callback) {
+        Swal.fire({
+            title: '<span style="font-size: 22px"> Konfirmasi!</span>',
+            html: message,
+            showCancelButton: true,
+            showConfirmButton: true,
+            cancelButtonText: 'Tidak',
+            confirmButtonText: 'Ya',
+            reverseButtons: true,
+            confirmButtonColor: '#48ABF7',
+            cancelButtonColor: '#EFEFEF',
+            customClass: {
+                cancelButton: 'text-dark'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                callback();
+            }
+        });
+    }
+
+    // loading alert
+    function loadingAllert() {
+        Swal.fire({
+            title: 'Loading...',
+            text: 'Please wait',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+    }
+
+    $(document).on('click', '#deleteData', function() {
+        let id = $(this).data('id');
+
+        function deleteData() {
+            $.ajax({
+                type: 'DELETE',
+                url: `/v1/submissions/delete/${id}`,
+                success: function(response) {
+                    console.log(response);
+
+                    if (response.code === 200) {
+                        successAlert();
+                        reloadBrowsers();
+                    } else {
+                        errorAlert();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        }
+
+        confirmAlert('Apakah Anda yakin ingin menghapus data?', deleteData);
     });
-});
+})
 
-
-});
 </script>
 
 

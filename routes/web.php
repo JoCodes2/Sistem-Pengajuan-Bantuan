@@ -22,6 +22,9 @@ Route::get('/', function () {
 Route::get('/submissions', function () {
     return view('Admin.Submissions');
 });
+Route::get('/submissions/create', function () {
+    return view('Admin.SampleCreatePengajuan');
+});
 Route::get('/group', function () {
     return view('Admin.Group');
 });

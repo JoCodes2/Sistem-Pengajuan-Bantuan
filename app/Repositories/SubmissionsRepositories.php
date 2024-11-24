@@ -9,6 +9,9 @@ use App\Models\MemberGrup;
 use App\Models\Submission;
 use App\Traits\HttpResponseTraits;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 
 class SubmissionsRepositories implements SubmissionInterfaces
 {
@@ -46,12 +49,23 @@ class SubmissionsRepositories implements SubmissionInterfaces
                 'grup_name' => $request->input('grup_name')
             ]);
 
+            $fileProposal = null;
+            if ($request->hasFile('file_proposal')) {
+                $file = $request->file('file_proposal');
+                $extension = $file->getClientOriginalExtension();
+                $filename = 'Proposal-Pengajuan-' . Str::random(15) . '.' . $extension;
+                Storage::makeDirectory('uploads/file-proposal-pengajuan');
+                $file->move(public_path('uploads/file-proposal-pengajuan'), $filename);
+                $fileProposal = $filename;
+            }
+            $dateSubmission = now('Asia/Makassar');
+
             $submission = $this->submissionModel::create([
                 'id_grup' => $group->id,
-                'date' => $request->input('date'),
-                'status_submissions' => $request->input('status_submissions'),
+                'date' => $dateSubmission,
+                'status_submissions' => 'review',
                 'description' => $request->input('description'),
-                'file_proposal' => $request->input('file_proposal')
+                'file_proposal' => $fileProposal,
             ]);
 
             $membersData = $request->input('members');
@@ -90,6 +104,61 @@ class SubmissionsRepositories implements SubmissionInterfaces
             return $this->success($data);
         }
     }
-    public function updateDataById(SubmissionRequest $request, $id) {}
-    public function deleteData($id) {}
+    public function updateDataById(SubmissionRequest $request, $id)
+    {
+        try {
+            $data = $this->submissionModel::where('id', $id)->first();
+            if (!$data) {
+                return $this->dataNotFound();
+            }
+            $data->date = now('Asia/Makassar');
+            $data->description = $request->input('description');
+
+            if ($request->hasFile('file_proposal')) {
+                $file = $request->file('file_proposal');
+                $extension = $file->getClientOriginalExtension();
+                $filename = 'Proposal-Pengajuan-' . Str::random(15) . '.' . $extension;
+                Storage::makeDirectory('uploads/file-proposal-pengajuan');
+                $file->move(public_path('uploads/file-proposal-pengajuan'), $filename);
+                $oldFilePath = public_path('uploads/file-proposal-pengajuan/' . $data->file_produk_hukum);
+                if (file_exists($oldFilePath)) {
+                    unlink($oldFilePath);
+                }
+
+                $data->file_proposal = $filename;
+            }
+
+            $data->update();
+
+            return $this->success($data);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), 400, $th, class_basename($this), __FUNCTION__);
+        }
+    }
+
+    public function deleteData($id)
+    {
+        $submission = $this->submissionModel::find($id);
+
+        if (!$submission) {
+            return $this->dataNotFound();
+        }
+
+        $fileProposal = $submission->file_proposal;
+        if ($fileProposal && File::exists(public_path('uploads/file-proposal-pengajuan/' . $fileProposal))) {
+            File::delete(public_path('uploads/file-proposal-pengajuan/' . $fileProposal));
+        }
+
+        $grup = $submission->grup;
+        if ($grup) {
+            foreach ($grup->member_grup as $member) {
+                $member->delete();
+            }
+
+            $grup->delete();
+        }
+        $submission->delete();
+
+        return $this->success();
+    }
 }
