@@ -55,7 +55,9 @@ class SubmissionRequest extends FormRequest
         }
 
         // Jika route bukan 'v1/submissions/create', tidak ada validasi
-        return [];
+        return [
+            'id_user' => 'required',
+        ];
     }
 
     /**
@@ -83,6 +85,7 @@ class SubmissionRequest extends FormRequest
             'members.*.nik.custom' => 'NIK Anggota tidak boleh duplikat dalam kelompok yang sama.',
 
             'members.*.status.required' => 'Status Anggota wajib diisi.',
+            'id_user' => 'Tujuan disposisi wajib diisi.',
         ];
     }
 
