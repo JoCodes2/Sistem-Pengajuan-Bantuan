@@ -57,38 +57,37 @@
 
             <div class="menu-inner-shadow"></div>
 
-            <ul class="menu-inner py-1">
-                <li class="menu-item {{ request()->is('/') ? 'active' : '' }}">
-                    <a href="/" class="menu-link">
-                        <i class="menu-icon fa-solid fa-house"></i>
-                        <div data-i18n="Analytics">Dashboard</div>
-                    </a>
-                </li>
-                <li class="menu-item {{ request()->is('user') ? 'active' : '' }}">
-                    <a href="/user" class="menu-link">
-                        <i class="menu-icon fa-solid fa-user"></i>
-                        <div data-i18n="Analytics">Pengguna</div>
-                    </a>
-                </li>
-                <li class="menu-item {{ request()->is('submissions') ? 'active' : '' }}">
-                    <a href="/submissions" class="menu-link">
-                        <i class="menu-icon fa-solid fa-code-pull-request"></i>
-                        <div data-i18n="Analytics">Pengajuan</div>
-                    </a>
-                </li>
-                <li class="menu-item {{ request()->is('group') ? 'active' : '' }}">
-                    <a href="/group" class="menu-link">
-                        <i class="menu-icon fa-brands fa-42-group"></i>
-                        <div data-i18n="Analytics">Kelompok</div>
-                    </a>
-                </li>
-                <li class="menu-item {{ request()->is('member-group') ? 'active' : '' }}">
-                    <a href="/member-group" class="menu-link">
-                        <i class="menu-icon fa-solid fa-people-group"></i>
-                        <div data-i18n="Analytics">Anggota Kelompok</div>
-                    </a>
-                </li>
-
-            </ul>
+          <ul class="menu-inner py-1">
+            <li class="menu-item {{ request()->is('/') ? 'active' : '' }}">
+              <a href="/" class="menu-link">
+                <i class="menu-icon fa-solid fa-house"></i>
+                <div data-i18n="Analytics">Dashboard</div>
+              </a>
+            </li>
+            <li class="menu-item {{ request()->is('group') ? 'active' : '' }}">
+              <a href="/group" class="menu-link">
+                <i class="menu-icon fa-brands fa-42-group"></i>
+                <div data-i18n="Analytics">Kelompok</div>
+              </a>
+            </li>
+            <li class="menu-item {{ request()->is('member-group') ? 'active' : '' }}">
+              <a href="/member-group" class="menu-link">
+                <i class="menu-icon fa-solid fa-people-group"></i>
+                <div data-i18n="Analytics">Anggota Kelompok</div>
+              </a>
+            </li>
+             <li class="menu-item {{ request()->is('submissions') ? 'active' : '' }}">
+              <a href="/submissions" class="menu-link">
+                <i class="menu-icon fa-solid fa-code-pull-request"></i>
+                <div data-i18n="Analytics">Pengajuan</div>
+              </a>
+            </li>
+            <li class="menu-item {{ request()->is('disposision') ? 'active' : '' }}">
+              <a href="/disposision" class="menu-link">
+                <i class="menu-icon fa-solid fa-list-check"></i>
+                <div data-i18n="Analytics">Disposisi</div>
+              </a>
+            </li>
+          </ul>
         </aside>
         <!-- / Menu -->

@@ -13,17 +13,14 @@ return new class extends Migration
     {
         Schema::create('member_grups', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('id_grup'); // Menggunakan UUID untuk foreign key
+            $table->foreignUuid('id_grup')->references('id')->on('grups')->onDelete('cascade');
             $table->string('name');
             $table->string('address');
-            $table->string('tempat');
-            $table->date('tanggal_lahir');
+            $table->string('place_birth');
+            $table->date('date_birth');
             $table->string('nik');
-            $table->string('status');
+            $table->enum('status', ['marry', 'singgle', 'divorced alive', 'divorced dead']);
             $table->timestamps();
-
-            // Menambahkan foreign key secara manual untuk UUID
-            $table->foreign('id_grup')->references('id')->on('grups')->onDelete('cascade');
         });
     }
 

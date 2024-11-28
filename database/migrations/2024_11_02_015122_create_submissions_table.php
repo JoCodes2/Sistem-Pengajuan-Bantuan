@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('submissions', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('id_grup'); // Menggunakan UUID untuk foreign key
+            $table->foreignUuid('id_grup')->references('id')->on('grups')->onDelete('cascade');
+            $table->enum('status_submissions', ['review', 'rejected', 'approved']);
             $table->date('date');
             $table->text('description');
             $table->string('file_proposal');
+            $table->foreignUuid('id_user')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
