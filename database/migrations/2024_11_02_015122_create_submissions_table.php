@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('date');
             $table->text('description');
             $table->string('file_proposal');
+            $table->foreignUuid('id_user')->nullable()->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

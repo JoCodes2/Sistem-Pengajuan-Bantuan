@@ -25,4 +25,8 @@ class Submission extends Model
     {
         return $this->belongsTo(Grup::class, 'id_grup');
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
 }

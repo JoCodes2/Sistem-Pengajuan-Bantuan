@@ -64,7 +64,7 @@ class SubmissionsRepositories implements SubmissionInterfaces
                 'id_grup' => $group->id,
                 'date' => $dateSubmission,
                 'status_submissions' => 'review',
-                'description' => $request->input('description'),
+                'description' => $request->input('description') ?? '-',
                 'file_proposal' => $fileProposal,
             ]);
 
@@ -111,22 +111,7 @@ class SubmissionsRepositories implements SubmissionInterfaces
             if (!$data) {
                 return $this->dataNotFound();
             }
-            $data->date = now('Asia/Makassar');
-            $data->description = $request->input('description');
-
-            if ($request->hasFile('file_proposal')) {
-                $file = $request->file('file_proposal');
-                $extension = $file->getClientOriginalExtension();
-                $filename = 'Proposal-Pengajuan-' . Str::random(15) . '.' . $extension;
-                Storage::makeDirectory('uploads/file-proposal-pengajuan');
-                $file->move(public_path('uploads/file-proposal-pengajuan'), $filename);
-                $oldFilePath = public_path('uploads/file-proposal-pengajuan/' . $data->file_produk_hukum);
-                if (file_exists($oldFilePath)) {
-                    unlink($oldFilePath);
-                }
-
-                $data->file_proposal = $filename;
-            }
+            $data->id_user = $request->input('id_user');
 
             $data->update();
 
