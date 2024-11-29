@@ -28,7 +28,7 @@
         </div>
 
         <!-- Modal -->
-        <div class="modal fade show" id="formDataModal" aria-modal="true" role="dialog">
+        {{-- <div class="modal fade show" id="formDataModal" aria-modal="true" role="dialog">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header modal-data">
@@ -84,6 +84,61 @@
                     </div>
                 </div>
             </div>
+        </div> --}}
+
+        <div class="modal fade show" id="formDataModal" tabindex="-1" aria-labelledby="formDataModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="formDataModalLabel">Pengguna</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="userForm" method="POST">
+                            @csrf
+                            <input type="hidden" id="id" name="id">
+                            <div class="form-group">
+                                <label for="name">Nama</label>
+                                <input type="text" class="form-control" name="name" id="name"
+                                    placeholder="input nama">
+                                <small id="name-error" class="text-danger"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="password" id="passwordLabel">Password</label>
+                                <input type="password" class="form-control passwordLabel" name="password" id="password"
+                                    placeholder="*******">
+                                <small id="password-error" class="text-danger"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="password_confirmation" id="passwordConfirmLabel">Konfirmasi Password</label>
+                                <input type="password" class="form-control" name="password_confirmation"
+                                    id="password_confirmation">
+                                <small id="password_confirmation-error" class="text-danger"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="position">Jabatan</label>
+                                <input type="text" class="form-control" name="position" id="position"
+                                    placeholder="input jabatan">
+                                <small id="devisi-error" class="text-danger"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="role">Hak Akses</label>
+                                <select class="form-control" name="role" id="role">
+                                    <option value="">Pilih Role</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="user">User</option>
+                                </select>
+                                <small id="role-error" class="text-danger"></small>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                        <button type="button" class="btn btn-primary" id="simpanData">Simpan</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
 
@@ -134,23 +189,29 @@
             });
 
             $('#myBtn').click(function() {
+                // Reset form dan pesan error
+                $('#userForm')[0].reset(); // Reset input form
+                $('.text-danger').text(''); // Hapus pesan error
+                $('#id').val(''); // Kosongkan input ID
+
+                // Atur ulang judul modal jika perlu
+                $('#formDataModalLabel').text('Tambah Pengguna');
+
+                // Tampilkan modal
                 $('#formDataModal').modal('show');
-                $('.text-danger').text('');
-                $('#upsertData')[0].reset();
-            });
-            $('#formDataModal').on('show.bs.modal', function() {
-                $('#upsertData')[0].reset();
             });
 
             // Save or update data
             $(document).on('click', '#simpanData', function(e) {
-                $('.text-danger').text('');
                 e.preventDefault();
 
+                // Hapus pesan error sebelumnya
+                $('.text-danger').text('');
+
                 let id = $('#id').val();
-                let formData = new FormData($('#upsertData')[0]);
+                let formData = new FormData($('#userForm')[0]); // Pastikan ID form sesuai dengan modal
                 let url = id ? `/v1/user/update/${id}` : '/v1/user/create';
-                let method = id ? 'POST' : 'POST';
+                let method = 'POST';
 
                 loadingAllert();
 
@@ -161,7 +222,6 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
-                        console.log(response);
                         Swal.close();
                         if (response.code === 422) {
                             let errors = response.errors;
@@ -170,7 +230,9 @@
                             });
                         } else if (response.code === 200) {
                             successAlert();
-                            reloadBrowsers();
+                            $('#formDataModal').modal(
+                            'hide'); // Tutup modal setelah berhasil menyimpan
+                            getData(); // Refresh data tabel
                         } else {
                             errorAlert();
                         }
@@ -181,6 +243,7 @@
                     }
                 });
             });
+
 
             // Edit data button click handler
             $(document).on('click', '.edit-btn', function() {
