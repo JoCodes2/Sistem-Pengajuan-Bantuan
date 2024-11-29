@@ -31,6 +31,10 @@ Route::get('/group', function () {
 Route::get('/member-group', function () {
     return view('Admin.MemberGroup');
 });
+Route::get('/user', function () {
+    return view('Admin.User');
+});
+
 Route::get('/disposision', function () {
     return view('Admin.Disposisi');
 });
