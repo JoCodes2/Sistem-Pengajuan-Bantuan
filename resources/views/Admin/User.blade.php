@@ -27,65 +27,6 @@
             </table>
         </div>
 
-        <!-- Modal -->
-        {{-- <div class="modal fade show" id="formDataModal" aria-modal="true" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header modal-data">
-                        <h4 class="modal-title"><i class="fa-solid fa-book-medical pr-2"></i>Form Data</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true" class="text-light">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="upsertData" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            <input type="hidden" name="id" id="id">
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="name">Nama</label>
-                                    <input type="text" class="form-control" name="name" id="name"
-                                        placeholder="input nama">
-                                    <small id="name-error" class="text-danger"></small>
-                                </div>
-                                <div class="form-group">
-                                    <label for="password" id="passwordLabel">Password</label>
-                                    <input type="password" class="form-control passwordLabel" name="password" id="password"
-                                        placeholder="*******">
-                                    <small id="password-error" class="text-danger"></small>
-                                </div>
-                                <div class="form-group">
-                                    <label for="password_confirmation" id="passwordConfirmLabel">Konfirmasi Password</label>
-                                    <input type="password" class="form-control" name="password_confirmation"
-                                        id="password_confirmation">
-                                    <small id="password_confirmation-error" class="text-danger"></small>
-                                </div>
-                                <div class="form-group">
-                                    <label for="position">Jabatan</label>
-                                    <input type="text" class="form-control" name="position" id="position"
-                                        placeholder="input jabatan">
-                                    <small id="devisi-error" class="text-danger"></small>
-                                </div>
-                                <div class="form-group">
-                                    <label for="role">Hak Akses</label>
-                                    <select class="form-control" name="role" id="role">
-                                        <option value="">Pilih Role</option>
-                                        <option value="admin">Admin</option>
-                                        <option value="user">User</option>
-                                    </select>
-                                    <small id="role-error" class="text-danger"></small>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer ">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Batal</button>
-                        <button type="button" id="simpanData" class="btn-simpan-data">Simpan</button>
-                    </div>
-                </div>
-            </div>
-        </div> --}}
-
         <div class="modal fade show" id="formDataModal" tabindex="-1" aria-labelledby="formDataModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg">
@@ -231,7 +172,7 @@
                         } else if (response.code === 200) {
                             successAlert();
                             $('#formDataModal').modal(
-                            'hide'); // Tutup modal setelah berhasil menyimpan
+                                'hide'); // Tutup modal setelah berhasil menyimpan
                             getData(); // Refresh data tabel
                         } else {
                             errorAlert();
