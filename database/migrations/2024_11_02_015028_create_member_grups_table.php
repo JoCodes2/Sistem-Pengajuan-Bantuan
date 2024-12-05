@@ -13,11 +13,7 @@ return new class extends Migration
     {
         Schema::create('member_grups', function (Blueprint $table) {
             $table->uuid('id')->primary();
-<<<<<<< HEAD
-            $table->foreignUuid('id_grup')->constrained('grups');
-=======
             $table->foreignUuid('id_grup')->references('id')->on('grups')->onDelete('cascade');
->>>>>>> 5df66dcd537e39058f3d6e6cd1041e51308289c6
             $table->string('name');
             $table->string('address');
             $table->string('place_birth');
