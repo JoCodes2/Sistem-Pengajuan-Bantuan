@@ -2,7 +2,7 @@
 @section('content')
     <div class="card">
         <div class="card-header d-flex justify-content-between">
-            <h5 class="fw-bold fs-10"><i class="fa-solid fa-book px-1"></i>DATA PENGAJUAN BANTUAN</h5>
+            <h5 class="fw-bold fs-10"><i class="fa-solid fa-book px-1"></i>DATA DISPOSISI</h5>
         </div>
         <div class="table-responsive text-nowrap px-4">
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-center pb-2">
@@ -112,33 +112,6 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="disposisiModal" tabindex="-1" aria-labelledby="disposisiModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="disposisiModalLabel">Disposisi</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="disposisiForm" method="POST">
-                            @csrf
-                            <input type="hidden" id="id" name="id">
-                            <div class="form-grup">
-                                <label for="id_user">Kepada</label>
-                                <select name="id_user" id="id_user" class="form-control">
-                                    <option value="" selected disabled>--pilih--</option>
-                                </select>
-                                <small id="id_user-error" class="text-danger"></small>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="button" class="btn btn-primary" id="saveData">Simpan</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 @endsection
 @section('scripts')
@@ -201,8 +174,8 @@ $(document).ready(function() {
                     <td rowspan="${rowSpan}"><span class="${statusRequest.statusClass}"> ${statusRequest.statusText}</span></td>
                     <td rowspan="${rowSpan}">
                         <button class="btn btn-sm btn-outline-info" id="detailData" data-id="${item.id}"><i class="fa-solid fa-eye"></i></button>
-                        <button class="btn btn-sm btn-outline-primary" id="getDataById" data-id="${item.id}"><i class="fa-solid fa-paper-plane"></i></button>
-                        <button class="btn btn-sm btn-outline-danger" id="deleteData" data-id ="${item.id}"><i class="fa-solid fa-trash"></i></button>
+                        <button class="btn btn-sm btn-outline-primary" id="getDataById" data-id="${item.id}"><i class="fa-solid fa-check"></i></button>
+                        <button class="btn btn-sm btn-outline-danger" id="deleteData" data-id ="${item.id}"><i class="fa-solid fa-x"></i></button>
                     </td>
                 </tr>
             `;
@@ -459,92 +432,6 @@ $(document).ready(function() {
         }
 
         confirmAlert('Apakah Anda yakin ingin menghapus data?', deleteData);
-    });
-
-
-    $(document).on('click', '#getDataById', function() {
-        let id = $(this).data('id');
-
-        function getDataById() {
-            $.ajax({
-                type: 'GET',
-                url: `/v1/submissions/get/${id}`,
-                success: function(response) {
-                    let data = response.data[0];
-                    console.log(data.id);
-
-                    $('#id').val(data.id);
-                    getUsersAndPopulateDropdown();
-                    $('#disposisiModal').modal('show');
-                     $('.text-danger').text('');
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error fetching submission data:', error);
-                }
-            });
-        }
-
-        function getUsersAndPopulateDropdown() {
-            $.ajax({
-                type: 'GET',
-                url: '/v1/user/',
-                success: function(response) {
-                    console.log(response);
-
-                    populateUserDropdown(response);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error fetching users:', error);
-                }
-            });
-        }
-        function populateUserDropdown(response) {
-            $('#id_user').empty();
-            $('#id_user').append('<option value="" selected disabled>--pilih--</option>');
-            response.data.forEach(user => {
-                $('#id_user').append(`<option value="${user.id}">${user.name}</option>`);
-            });
-        }
-        getDataById();
-    });
-
-
-    $(document).on('click', '#saveData', function(e) {
-        $('.text-danger').text('');
-        e.preventDefault();
-
-        let id = $('#id').val();
-        let id_user = $('#id_user').val();
-
-        const data = {
-            id : id,
-            id_user : id_user
-        }
-        function disposisi() {
-            $.ajax({
-                type: 'POST',
-                url: `/v1/submissions/update/${id}`,
-                data : data,
-                success: function(response) {
-                    console.log(response);
-                    if(response.code == 422){
-                        let errors = response.errors;
-                        $.each(errors, function(key, value) {
-                            $('#' + key + '-error').text(value[0]);
-                        });
-                    }else if (response.code === 200) {
-                        successAlert();
-                        reloadBrowsers();
-                    } else {
-                        errorAlert();
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-        }
-        disposisi();
     });
 })
 

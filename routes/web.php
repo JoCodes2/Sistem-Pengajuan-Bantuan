@@ -22,13 +22,22 @@ Route::get('/', function () {
 Route::get('/submissions', function () {
     return view('Admin.Submissions');
 });
+Route::get('/submissions/create', function () {
+    return view('Admin.SampleCreatePengajuan');
+});
 Route::get('/group', function () {
     return view('Admin.Group');
 });
 Route::get('/member-group', function () {
     return view('Admin.MemberGroup');
 });
+Route::get('/user', function () {
+    return view('Admin.User');
+});
 
+Route::get('/disposision', function () {
+    return view('Admin.Disposisi');
+});
 // route  api user //
 Route::prefix('v1/user')->controller(UserController::class)->group(function () {
     Route::get('/', 'getAllData');
