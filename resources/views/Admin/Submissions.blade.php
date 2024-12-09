@@ -172,7 +172,7 @@ $(document).ready(function() {
                 break;
             default:
                 statusClass = 'btn btn-info btn-sm btn-round';
-                statusText = '-';
+                statusText = 'Menunggu Persetujuan';
         }
 
         return { statusClass, statusText };
@@ -502,7 +502,7 @@ $(document).ready(function() {
             $('#id_user').empty();
             $('#id_user').append('<option value="" selected disabled>--pilih--</option>');
             response.data.forEach(user => {
-                $('#id_user').append(`<option value="${user.id}">${user.name}</option>`);
+                $('#id_user').append(`<option value="${user.id}">${user.name} - ${user.position}</option>`);
             });
         }
         getDataById();
