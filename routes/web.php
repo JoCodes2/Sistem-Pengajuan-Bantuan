@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('Admin.Dashboard');
+    return view('Web.Home');
 });
 Route::get('/submissions', function () {
     return view('Admin.Submissions');
