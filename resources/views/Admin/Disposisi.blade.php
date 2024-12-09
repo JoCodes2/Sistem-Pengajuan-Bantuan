@@ -145,52 +145,58 @@ $(document).ready(function() {
                 break;
             default:
                 statusClass = 'btn btn-info btn-sm btn-round';
-                statusText = '-';
+                statusText = 'Menunggu Persetujuan';
         }
 
         return { statusClass, statusText };
     }
 
-    function renderTable(data) {
-        $("#loadData tbody").empty();
+   function renderTable(data) {
+    $("#loadData tbody").empty();
 
-        const offset = (currentPage - 1) * pageSize;
-        const paginatedData = data.slice(offset, offset + pageSize);
+    const offset = (currentPage - 1) * pageSize;
+    const paginatedData = data.slice(offset, offset + pageSize);
 
-        paginatedData.forEach(function(item, index) {
-            let rowSpan = item.grup.member_grup.length;
-            let statusRequest = getStatusInfo(item.status_submissions);
-            let fileProposalUrl = '/uploads/file-proposal-pengajuan/' + item.file_proposal;
-            let row = `
+    paginatedData.forEach(function (item, index) {
+        let rowSpan = item.grup.member_grup.length;
+        let statusRequest = getStatusInfo(item.status_submissions);
+        let fileProposalUrl = '/uploads/file-proposal-pengajuan/' + item.file_proposal;
+
+        // Periksa apakah status_submissions adalah 'waiting'
+        let isWaiting = item.status_submissions === 'waiting';
+        let disableClass = isWaiting ? '' : 'disabled'; // Tambahkan class 'disabled' jika bukan 'waiting'
+
+        let row = `
+            <tr>
+                <td rowspan="${rowSpan}">${index + 1 + offset}</td>
+                <td rowspan="${rowSpan}">${formatDate(item.date)}</td>
+                <td rowspan="${rowSpan}"><strong class="fw-bold fs-10">${item.grup.grup_name}</strong></td>
+                <td><strong class="fw-bold fs-10">${item.grup.member_grup[0].nik}</strong><br> ${item.grup.member_grup[0].name}</td>
+                <td rowspan="${rowSpan}">${item.description}</td>
+                <td rowspan="${rowSpan}">
+                    <a href="${fileProposalUrl}" download class="text-decoration-none">${item.file_proposal}</a>
+                </td>
+                <td rowspan="${rowSpan}"><span class="${statusRequest.statusClass}"> ${statusRequest.statusText}</span></td>
+                <td rowspan="${rowSpan}">
+                    <button class="btn btn-sm btn-outline-info" id="detailData" data-id="${item.id}"><i class="fa-solid fa-eye"></i></button>
+                    <button class="btn btn-sm btn-outline-primary ${disableClass}" id="approve" data-id="${item.id}" ${!isWaiting ? 'disabled' : ''}><i class="fa-solid fa-check"></i></button>
+                    <button class="btn btn-sm btn-outline-danger ${disableClass}" id="reject" data-id="${item.id}" ${!isWaiting ? 'disabled' : ''}><i class="fa-solid fa-x"></i></button>
+                </td>
+            </tr>
+        `;
+        $("#loadData tbody").append(row);
+
+        item.grup.member_grup.slice(1).forEach(function (member) {
+            let memberRow = `
                 <tr>
-                    <td rowspan="${rowSpan}">${index + 1 + offset}</td>
-                    <td rowspan="${rowSpan}">${formatDate(item.date)}</td>
-                    <td rowspan="${rowSpan}"><strong class="fw-bold fs-10">${item.grup.grup_name}</strong></td>
-                    <td><strong class="fw-bold fs-10">${item.grup.member_grup[0].nik}</strong><br> ${item.grup.member_grup[0].name}</td>
-                    <td rowspan="${rowSpan}">${item.description}</td>
-                    <td rowspan="${rowSpan}">
-                        <a href="${fileProposalUrl}" download class="text-decoration-none">${item.file_proposal}</a>
-                    </td>
-                    <td rowspan="${rowSpan}"><span class="${statusRequest.statusClass}"> ${statusRequest.statusText}</span></td>
-                    <td rowspan="${rowSpan}">
-                        <button class="btn btn-sm btn-outline-info" id="detailData" data-id="${item.id}"><i class="fa-solid fa-eye"></i></button>
-                        <button class="btn btn-sm btn-outline-primary" id="getDataById" data-id="${item.id}"><i class="fa-solid fa-check"></i></button>
-                        <button class="btn btn-sm btn-outline-danger" id="deleteData" data-id ="${item.id}"><i class="fa-solid fa-x"></i></button>
-                    </td>
+                    <td><strong class="fw-bold fs-10">${member.nik}</strong><br> ${member.name}</td>
                 </tr>
             `;
-            $("#loadData tbody").append(row);
-
-            item.grup.member_grup.slice(1).forEach(function(member) {
-                let memberRow = `
-                    <tr>
-                        <td><strong class="fw-bold fs-10">${member.nik}</strong><br> ${member.name}</td>
-                    </tr>
-                `;
-                $("#loadData tbody").append(memberRow);
-            });
+            $("#loadData tbody").append(memberRow);
         });
-    }
+    });
+}
+
 
     function filterAndPaginateData() {
         const filteredData = dataCache.filter(item => {
@@ -408,31 +414,44 @@ $(document).ready(function() {
         });
     }
 
-    $(document).on('click', '#deleteData', function() {
-        let id = $(this).data('id');
+    $(document).on('click', '#approve', function () {
+        const id = $(this).data('id');
+        console.log(id);
 
-        function deleteData() {
-            $.ajax({
-                type: 'DELETE',
-                url: `/v1/submissions/delete/${id}`,
-                success: function(response) {
-                    console.log(response);
-
-                    if (response.code === 200) {
-                        successAlert();
-                        reloadBrowsers();
-                    } else {
-                        errorAlert();
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error(xhr.responseText);
-                }
-            });
-        }
-
-        confirmAlert('Apakah Anda yakin ingin menghapus data?', deleteData);
+        confirmAlert('Apakah Anda yakin ?', function () {
+            handleApproveReject(id, 'approve');
+        });
     });
+
+    $(document).on('click', '#reject', function () {
+        const id = $(this).data('id');
+        confirmAlert('Apakah Anda yakin ?', function () {
+            handleApproveReject(id, 'reject');
+        });
+    });
+
+
+    function handleApproveReject(id, action) {
+        $.ajax({
+            url: `v1/submissions/approve-reject/${id}`,
+            type: 'POST',
+            data: JSON.stringify({ action: action }),
+            contentType: 'application/json',
+            success: function (response) {
+                console.log(response);
+                if (response.code === 200) {
+                    successAlert();
+                    reloadBrowsers();
+                } else {
+                    errorAlert();
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error(xhr.responseText);
+            }
+        });
+    }
+
 })
 
 </script>

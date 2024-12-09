@@ -34,4 +34,9 @@ class SubmissionsController extends Controller
     {
         return $this->subRepo->deleteData($id);
     }
+
+    public function approveReject(Request $request, $id)
+    {
+        return $this->subRepo->approveReject($request, $id);
+    }
 }

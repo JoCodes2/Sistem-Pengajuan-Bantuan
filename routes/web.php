@@ -63,4 +63,5 @@ Route::prefix('v1/submissions')->controller(SubmissionsController::class)->group
     Route::get('/get/{id}', 'getDataById');
     Route::post('/update/{id}', 'updateDataById');
     Route::delete('/delete/{id}', 'deleteData');
+    Route::post('/approve-reject/{id}', 'approveReject');
 });

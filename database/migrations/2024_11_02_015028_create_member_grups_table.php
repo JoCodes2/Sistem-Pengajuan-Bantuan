@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('place_birth');
             $table->date('date_birth');
             $table->string('nik');
-            $table->enum('status', ['marry', 'singgle', 'divorced alive', 'divorced dead']);
+            $table->enum('status', ['marry', 'single', 'divorced alive', 'divorced dead']);
             $table->timestamps();
         });
     }
