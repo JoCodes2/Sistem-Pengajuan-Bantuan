@@ -3,6 +3,7 @@
 namespace App\Interfaces;
 
 use App\Http\Requests\SubmissionRequest;
+use Illuminate\Http\Request;
 
 interface SubmissionInterfaces
 {
@@ -11,4 +12,6 @@ interface SubmissionInterfaces
     public function getDataById($id);
     public function updateDataById(SubmissionRequest $request, $id);
     public function deleteData($id);
+
+    public function approveReject(Request $request, $id);
 }

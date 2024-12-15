@@ -8,6 +8,7 @@ use App\Models\Grup;
 use App\Models\MemberGrup;
 use App\Models\Submission;
 use App\Traits\HttpResponseTraits;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -112,6 +113,7 @@ class SubmissionsRepositories implements SubmissionInterfaces
                 return $this->dataNotFound();
             }
             $data->id_user = $request->input('id_user');
+            $data->status_submissions = 'waiting';
 
             $data->update();
 
@@ -145,5 +147,26 @@ class SubmissionsRepositories implements SubmissionInterfaces
         $submission->delete();
 
         return $this->success();
+    }
+
+    public function approveReject(Request $request, $id)
+    {
+        try {
+            $data = $this->submissionModel::where('id', $id)->first();
+
+            if (!$data) {
+                return $this->dataNotFound();
+            }
+            if ($request->has('action') && $request->action === 'approve') {
+                $data->status_submissions = 'approved';
+            } else {
+                $data->status_submissions = 'rejected';
+            }
+            $data->update();
+
+            return $this->success($data);
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), 400, $th, class_basename($this), __FUNCTION__);
+        }
     }
 }
