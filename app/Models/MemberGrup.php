@@ -10,6 +10,8 @@ class MemberGrup extends Model
 {
     use HasFactory, HasUuids;
 
+    protected $table = "member_grups";
+
     protected $fillable = [
         'id',
         'id_grup',
