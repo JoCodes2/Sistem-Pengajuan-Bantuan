@@ -27,10 +27,10 @@ class MemberGrupRequest extends FormRequest
             'id_grup' => 'required|exists:grups,id',
             'name' => 'required|string|max:100',
             'address' => 'nullable|string|max:255',
-            'tempat' => 'required',
-            'tanggal_lahir' => 'date',
-            'nik' => 'required|digits:16|unique:members,nik',
-            'status' => 'required|in:active,inactive',
+            'place_birth' => 'required',
+            'date_birth' => 'date',
+            'nik' => 'required|digits:16',
+            'status' => 'required|in:marry,singgle,divorced alive,divorced dead',
         ];
         return $rules;
     }
@@ -44,8 +44,8 @@ class MemberGrupRequest extends FormRequest
             'name.required' => 'Nama wajib diisi.',
             'name.max' => 'Nama tidak boleh lebih dari 100 karakter.',
             'address.max' => 'Alamat tidak boleh lebih dari 255 karakter.',
-            'ttl.required' => 'Tanggal lahir wajib diisi.',
-            'ttl.date' => 'Tanggal lahir harus berupa tanggal yang valid.',
+            'place_birth.required' => 'Tanggal lahir wajib diisi.',
+            'date_birth.date' => 'Tanggal lahir harus berupa tanggal yang valid.',
             'nik.required' => 'NIK wajib diisi.',
             'nik.digits' => 'NIK harus terdiri dari 16 digit.',
             'nik.unique' => 'NIK sudah terdaftar.',
