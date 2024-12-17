@@ -40,6 +40,7 @@ class ProsedurRepositories implements ProsedurInterfaces
             $data->file_prosedur = $request->input('file_prosedur');
 
             if ($request->hasFile('file_prosedur')) {
+                $data->name = $request->input('name');
                 $file = $request->file('file_prosedur');
                 $extension = $file->getClientOriginalExtension();
                 $filename = 'FILE-PROSEDUR-' . Str::random(15) . '.' . $extension;
@@ -76,6 +77,7 @@ class ProsedurRepositories implements ProsedurInterfaces
             $data->file_prosedur = $request->input('file_prosedur');
 
             if ($request->hasFile('file_prosedur')) {
+                $data->name = $request->input('name');
                 $file = $request->file('file_prosedur');
                 $extension = $file->getClientOriginalExtension();
                 $filename = 'FILE-PROSEDUR-' . Str::random(15) . '.' . $extension;
