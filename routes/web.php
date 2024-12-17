@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\CMS\DashboardController;
 use App\Http\Controllers\CMS\GrupController;
 use App\Http\Controllers\CMS\MemberGrupController;
@@ -92,3 +93,10 @@ Route::prefix('v1/submissions')->controller(SubmissionsController::class)->group
     Route::delete('/delete/{id}', 'deleteData');
     Route::post('/approve-reject/{id}', 'approveReject');
 });
+
+// Route api authentication
+Route::get('/login', function () {
+    return view('Auth.Login');
+});
+Route::post('auth/login', [AuthController::class, 'login']);
+Route::post('auth/logout', [AuthController::class, 'logout']);
