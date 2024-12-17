@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{{ asset('Image/sps.png') }}" type="image/png" />
+    <link rel="icon" href="{{ asset('assets/assets/logopemprov.png')}}" type="image/png" />
     <title>Sistem Pengaduan Bantuan</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
@@ -21,7 +21,7 @@
 <body>
     @include('Layouts.NavUiWeb');
     <!-- content -->
-    <main class="content container pt-5 mt-5">
+    <main class="content container y">
         @yield('content')
     </main>
     <!-- footer -->
@@ -29,17 +29,17 @@
     <section id="footer">
         <div class="container pt-3">
             <div class=" col-12 footer-content mx-auto">
-                <div class="row d-flex justify-content-center text-center">
-                    <div class="col-md-4 justify-content-center">
+                <div class="row d-flex justify-content-center text-center text-light">
+                    <div class="col-md-4 justify-content-center ">
                         <div>
-                            <h5 class="font-popins sky ">Sistem Inforamsi Pengajuan Bantuan</h5>
+                            <h5 class="font-popins fw-bold">Sistem Inforamsi Pengajuan Bantuan</h5>
                             <p class="font-kanit">Terima kasih sudah menggunakan layanan kami.</p>
                         </div>
                     </div>
                     <div class="col-md-4 justify-content-center">
-                        <h6 class="font-popins sky ">Navigation</h6>
+                        <h6 class="font-popins fw-bold">Navigation</h6>
                         <div>
-                            <ul class="list-unstyled font-kanit">
+                            <ul class="list-unstyled font-kanit text-light">
                                 <li><a href="#" class="nav-footer">Home</a></li>
                                 <li><a href="#" class="nav-footer">Data</a></li>
                                 <li><a href="#" class="nav-footer">Contact</a></li>
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div class="col-md-4 justify-content-center">
-                        <h6 class="font-popins sky ">Contact</h6>
+                        <h6 class="font-popins fw-bold ">Contact</h6>
                         <div>
                             <ul class=" list-unstyled justify-content-center text-center ">
                                 <li><i class="fa-solid fa-envelope"></i>jocodes@gmail.com</a>
@@ -64,7 +64,7 @@
 
     </section>
     <footer class="mt-3">
-        <div class="col-md-12 justify-content-center text-center font-kanit">
+        <div class="col-md-12 justify-content-center text-center font-kanit sky">
             <p>&copy; 2025 Jocodes</p>
         </div>
     </footer>
@@ -81,24 +81,7 @@
     <script src="{{ asset('assets/js/select2.full.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
-    <script src="{{ asset('assets/js/core/jquery.3.2.1.min.js') }}"></script>
-    <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
-    <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
-    <!-- jQuery UI -->
-    <script src="{{ asset('assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js') }}"></script>
-    <script src="{{ asset('assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js') }}"></script>
-
-    <!-- jQuery Scrollbar -->
-    <script src="{{ asset('assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js') }}"></script>
-
-    <!-- Datatables -->
-    <script src="{{ asset('assets/js/plugin/datatables/datatables.min.js') }}"></script>
-    <!-- Sweet Alert -->
-    <script src="{{ asset('assets/js/plugin/sweetalert/sweetalert.min.js') }}"></script>
-
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-
+    @include('Layouts.Scripts')
     @yield('script')
 </body>
 
