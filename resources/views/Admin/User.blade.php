@@ -76,8 +76,8 @@
                                 <label for="role">Hak Akses</label>
                                 <select class="form-control" name="role" id="role">
                                     <option value="">Pilih Role</option>
+                                    <option value="super admin">Super Admin</option>
                                     <option value="admin">Admin</option>
-                                    <option value="user">User</option>
                                 </select>
                                 <small id="role-error" class="text-danger"></small>
                             </div>
@@ -114,6 +114,7 @@
                             table.row.add([
                                 index + 1,
                                 item.name,
+                                item.email,
                                 "****", // Menyembunyikan password
                                 item.position,
                                 item.role,
@@ -207,6 +208,7 @@
                         $('#formDataModal').modal('show');
                         $('#id').val(response.data.id);
                         $('#name').val(response.data.name);
+                        $('#email').val(response.data.email);
                         $('#passwordLabel').text('Masukan password baru')
 
                         $('#position').val(response.data.position);
