@@ -30,6 +30,11 @@ Route::get('/dashboard/members-count', [DashboardController::class, 'getMemberCo
 Route::get('/', function () {
     return view('Web.Home');
 });
+
+Route::get('/data', function () {
+    return view('Web.Prosedur');
+});
+
 Route::get('/prosedur', function () {
     return view('Admin.Prosedur');
 });
