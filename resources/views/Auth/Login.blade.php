@@ -42,10 +42,12 @@
               <h4 class="mb-2">Welcome to SIPB! 👋</h4>
               <p class="mb-4">Please sign-in to your account and start the adventure</p>
 
-              <form id="formAuthentication" class="mb-3" action="index.html" method="POST">
+              <form id="formAuthentication" class="mb-3" method="POST">
+                @csrf
                 <div class="mb-3">
                   <label for="email" class="form-label">Email </label>
-                  <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" autofocus="">
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" autofocus="">
+                  <small id="email-error" class="text-danger"></small>
                 </div>
                 <div class="mb-3 form-password-toggle">
                   <div class="d-flex justify-content-between">
@@ -54,7 +56,8 @@
                   <div class="input-group input-group-merge">
                     <input type="password" id="password" class="form-control" name="password" placeholder="············" aria-describedby="password">
                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-                  </div>
+                </div>
+                <small id="password-error" class="text-danger"></small>
                 </div>
                 <div class="mb-3">
                   <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
@@ -71,7 +74,101 @@
 
     @include('Layouts.Scripts')
     <script>
+        const apiUrl = 'auth/login';
+        function successAlert(message) {
+            Swal.fire({
+                title: 'Berhasil!',
+                text: message,
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 1000,
+            });
+        }
 
+        function errorAlert(message) {
+            Swal.fire({
+                title: 'Error',
+                text: message,
+                icon: 'error',
+                showConfirmButton: false,
+                timer: 1500,
+            });
+        }
+
+        function loadingAlert() {
+            Swal.fire({
+                title: 'Loading...',
+                text: 'Please wait',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+        }
+
+        $(document).ready(function () {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            let formInput = $('#formAuthentication');
+
+            formInput.on('submit', function (e) {
+                e.preventDefault();
+
+                $('.text-danger').text('');
+
+                let formData = new FormData(this);
+                loadingAlert();
+
+                $.ajax({
+                    type: 'POST',
+                    url: `{{ url('${apiUrl}') }}`,
+                    data: formData,
+                    dataType: 'JSON',
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        console.log(response);
+
+                        Swal.close();
+                        if (response.code === 422) {
+                            let errors = response.errors;
+                            $.each(errors, function(key, value) {
+                                $('#' + key + '-error').text(value[0]);
+                            });
+                        } else {
+                            successAlert();
+                            if (response.user && response.user.role) {
+                                switch (response.user.role.toLowerCase()) {
+                                    case 'super admin':
+                                        window.location.href = '/';
+                                        break;
+                                    case 'admin':
+                                        window.location.href = '/cms-dashboard';
+                                        break;
+                                    default:
+                                        window.location.href = '/';
+                                        break;
+                                }
+                            } else {
+                                console.error('User role not found in response.');
+                            }
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.close();
+                        const response = xhr.responseJSON;
+                        if (xhr.status === 401) {
+                            errorAlert('Terjadi kesalahan!');
+                        }else {
+                            console.error(xhr.responseText);
+                        }
+                    }
+                });
+            });
+        });
     </script>
 </body>
 </html>

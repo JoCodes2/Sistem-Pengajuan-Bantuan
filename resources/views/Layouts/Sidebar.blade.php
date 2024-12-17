@@ -58,8 +58,8 @@
             <div class="menu-inner-shadow"></div>
 
             <ul class="menu-inner py-1">
-                <li class="menu-item {{ request()->is('/') ? 'active' : '' }}">
-                    <a href="/" class="menu-link">
+                <li class="menu-item {{ request()->is('dashboard') ? 'active' : '' }}">
+                    <a href="/dashboard" class="menu-link">
                         <i class="menu-icon fa-solid fa-house"></i>
                         <div data-i18n="Analytics">Dashboard</div>
                     </a>
