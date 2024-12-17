@@ -34,6 +34,7 @@ class UserRepositories implements UserInterfaces
             // Create the user
             $data = new $this->UserModel;
             $data->name = $request->input('name');
+            $data->email = $request->input('email');
             $data->password = Hash::make($request->input('password'));
             $data->position = $request->input('position');
             $data->role = $request->input('role');
@@ -64,6 +65,7 @@ class UserRepositories implements UserInterfaces
 
             // Perbarui data pengguna
             $data->name = $request->input('name');
+            $data->email = $request->input('email');
             // Periksa apakah password diisi dan perbarui jika ada
             if ($request->filled('password')) {
                 $data->password = Hash::make($request->input('password'));

@@ -28,7 +28,7 @@ Route::get('/dashboard/members-count', [DashboardController::class, 'getMemberCo
 
 
 Route::get('/', function () {
-    return view('Admin.Dashboard');
+    return view('Web.Home');
 });
 Route::get('/prosedur', function () {
     return view('Admin.Prosedur');
