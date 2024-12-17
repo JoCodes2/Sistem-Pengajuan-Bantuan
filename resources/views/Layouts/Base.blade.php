@@ -10,7 +10,6 @@
 >
   <head>
 
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta charset="utf-8" />
     <meta
       name="viewport"
@@ -21,6 +20,7 @@
 
     <meta name="description" content="" />
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
 

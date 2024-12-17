@@ -140,7 +140,21 @@
                             });
                         } else {
                             successAlert();
-                            window.location.href = '/dashboard';
+                            if (response.user && response.user.role) {
+                                switch (response.user.role.toLowerCase()) {
+                                    case 'super admin':
+                                        window.location.href = '/';
+                                        break;
+                                    case 'admin':
+                                        window.location.href = '/cms-dashboard';
+                                        break;
+                                    default:
+                                        window.location.href = '/';
+                                        break;
+                                }
+                            } else {
+                                console.error('User role not found in response.');
+                            }
                         }
                     },
                     error: function(xhr, status, error) {

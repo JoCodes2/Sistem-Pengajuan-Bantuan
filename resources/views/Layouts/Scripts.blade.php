@@ -20,8 +20,6 @@
  <script async defer src="https://buttons.github.io/buttons.js"></script>
  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
- <!-- Link ke Bootstrap 5 CSS -->
- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
@@ -58,8 +56,3 @@
             });
         });
     </script>
- <!-- Link ke Bootstrap 5 JavaScript -->
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
-
- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
