@@ -64,6 +64,13 @@
                         <div data-i18n="Analytics">Dashboard</div>
                     </a>
                 </li>
+                <li class="menu-item {{ request()->is('prosedur') ? 'active' : '' }}">
+                    <a href="/prosedur" class="menu-link">
+                        <i class="menu-icon fa-solid fa-file"></i> <!-- Ganti dengan ikon kertas -->
+                        <div data-i18n="Analytics">Prosedur</div>
+                    </a>
+                </li>
+
                 <li class="menu-item {{ request()->is('user') ? 'active' : '' }}">
                     <a href="/user" class="menu-link">
                         <i class="menu-icon fa-user fa-42-group"></i>
