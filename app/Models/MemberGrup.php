@@ -25,6 +25,7 @@ class MemberGrup extends Model
         'updated_at',
     ];
 
+    // Relasi dengan model Ormas
     public function grup()
     {
         return $this->belongsTo(Grup::class, 'id_grup', 'id');

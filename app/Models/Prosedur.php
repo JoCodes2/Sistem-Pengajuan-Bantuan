@@ -9,5 +9,10 @@ class Prosedur extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['example_proposal'];
+    protected $fillable = [
+        'id',
+        'file_prosedur',
+        'created_at',
+        'updated_at',
+    ];
 }
