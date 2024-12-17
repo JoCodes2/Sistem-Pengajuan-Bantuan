@@ -73,7 +73,7 @@
 
                 <li class="menu-item {{ request()->is('user') ? 'active' : '' }}">
                     <a href="/user" class="menu-link">
-                        <i class="menu-icon fa-user fa-42-group"></i>
+                        <i class="menu-icon fa-solid fa-user"></i>
                         <div data-i18n="Analytics">Pengguna</div>
                     </a>
                 </li>

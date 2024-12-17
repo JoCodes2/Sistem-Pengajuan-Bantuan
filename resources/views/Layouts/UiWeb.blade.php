@@ -26,7 +26,7 @@
     </main>
     <!-- footer -->
     <!-- footer -->
-    <section id="footer">
+    <section id="footer" >
         <div class="container pt-3">
             <div class=" col-12 footer-content mx-auto">
                 <div class="row d-flex justify-content-center text-center text-light">
@@ -63,7 +63,7 @@
         </div>
 
     </section>
-    <footer class="mt-3">
+    <footer class="mt-3 ">
         <div class="col-md-12 justify-content-center text-center font-kanit sky">
             <p>&copy; 2025 Jocodes</p>
         </div>
