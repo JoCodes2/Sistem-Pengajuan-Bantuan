@@ -181,7 +181,7 @@
                         } else if (response.code === 200) {
                             successAlert();
                             $('#formDataModal').modal(
-                            'hide'); // Tutup modal setelah berhasil menyimpan
+                                'hide'); // Tutup modal setelah berhasil menyimpan
                             getData(); // Refresh data tabel
                         } else {
                             errorAlert();

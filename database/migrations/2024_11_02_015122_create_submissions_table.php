@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('submissions', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('id_grup')->references('id')->on('grups')->onDelete('cascade');
-            $table->enum('status_submissions', ['review', 'rejected', 'approved']);
+            $table->enum('status_submissions', ['review', 'waiting', 'rejected', 'approved']);
             $table->date('date');
             $table->text('description');
             $table->string('file_proposal');

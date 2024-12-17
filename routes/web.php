@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CMS\DashboardController;
 use App\Http\Controllers\CMS\GrupController;
+use App\Http\Controllers\CMS\MemberGrupController;
 use App\Http\Controllers\CMS\SubmissionsController;
 use App\Http\Controllers\CMS\UserController;
 use Illuminate\Support\Facades\Route;
@@ -16,8 +18,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/dashboard', function () {
     return view('Admin.Dashboard');
+});
+Route::get('/dashboard/submissions-count', [DashboardController::class, 'getSubmissionCount']);
+Route::get('/dashboard/members-count', [DashboardController::class, 'getMemberCount']);
+
+
+Route::get('/', function () {
+    return view('Web.Home');
 });
 Route::get('/submissions', function () {
     return view('Admin.Submissions');
@@ -56,6 +65,24 @@ Route::prefix('v1/grup')->controller(GrupController::class)->group(function () {
     Route::delete('/delete/{id}', 'deleteData');
 });
 
+// route  api membergrup //
+Route::prefix('v1/membergrup')->controller(MemberGrupController::class)->group(function () {
+    Route::get('/', 'getAllData');
+    Route::post('/create', 'createData');
+    Route::get('/get/{id}', 'getDataById');
+    Route::post('/update/{id}', 'updateDataById');
+    Route::delete('/delete/{id}', 'deleteData');
+});
+
+Route::prefix('v1/membergrup')->controller(MemberGrupController::class)->group(function () {
+    Route::get('/', 'getAllData');
+    Route::post('/create', 'createData');
+    Route::get('/{id}', 'getDataById');  // Perbaikan di sini
+    Route::post('/update/{id}', 'updateDataById');
+    Route::delete('/delete/{id}', 'deleteData');
+});
+
+
 // route  api submissions //
 Route::prefix('v1/submissions')->controller(SubmissionsController::class)->group(function () {
     Route::get('/', 'getAllData');
@@ -63,4 +90,5 @@ Route::prefix('v1/submissions')->controller(SubmissionsController::class)->group
     Route::get('/get/{id}', 'getDataById');
     Route::post('/update/{id}', 'updateDataById');
     Route::delete('/delete/{id}', 'deleteData');
+    Route::post('/approve-reject/{id}', 'approveReject');
 });
