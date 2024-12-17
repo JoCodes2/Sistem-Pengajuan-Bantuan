@@ -11,6 +11,7 @@ class Prosedur extends Model
 
     protected $fillable = [
         'id',
+        'name',
         'file_prosedur',
         'created_at',
         'updated_at',

@@ -24,6 +24,7 @@ class ProsedurRequest extends FormRequest
     public function rules()
     {
         $rules = [
+            'name' => 'required',
             'file_prosedur' => 'required|file|mimes:pdf|max:2048',
 
         ];
@@ -32,6 +33,7 @@ class ProsedurRequest extends FormRequest
     public function messages()
     {
         return [
+            'name.required' => 'Nama prosedur wajib diisi',
             'file_prosedur.required' => 'File prosedur wajib diupload.',
             'file_prosedur.file' => 'File prosedur harus berupa file.',
             'file_prosedur.mimes' => 'File yang diupload harus dalam format pdf.',

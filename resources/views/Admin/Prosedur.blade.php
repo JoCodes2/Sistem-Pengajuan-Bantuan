@@ -2,20 +2,20 @@
 @section('content')
     <div class="card">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-            <h3 class="m-0 font-weight-bold "><i class="fa-solid fa-book pr-2"></i>Prosedur</h3>
+            <h3 class="m-0 font-weight-bold"><i class="fa-solid fa-book pr-2"></i>Prosedur</h3>
             <button type="button" class="btn btn-outline-primary ml-auto" id="myBtn">
                 <i class="fa-solid fa-plus pr-2"></i>Tambah
             </button>
         </div>
 
-        <!-- /.card-header -->
         <div class="card-body">
             <table id="loadData" class="table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th>No</th>
-                        <th>Prosedur</th>
-                        <th>Actions</th>
+                        <th>Nama</th>
+                        <th>File Prosedur</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody id="tbody">
@@ -33,14 +33,20 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form id="upsertData" method="POST" enctype="multipart/form-data">
+                        <form id="upsertData" enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" id="id" name="id">
                             <div class="form-group">
-                                <label for="file_produk_hukum">File Produk Hukum</label>
-                                <input type="file" class="form-control" name="file_produk_hukum" id="file_produk_hukum"
+                                <label for="name">Nama</label>
+                                <input type="text" class="form-control" name="name" id="name"
+                                    placeholder="Masukkan nama prosedur">
+                                <small id="name-error" class="text-danger"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="file_prosedur">File Prosedur</label>
+                                <input type="file" class="form-control" name="file_prosedur" id="file_prosedur"
                                     accept="application/pdf">
-                                <small id="file_produk_hukum-error" class="text-danger"></small>
+                                <small id="file_prosedur-error" class="text-danger"></small>
                             </div>
                         </form>
                     </div>
@@ -57,16 +63,15 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
-            // Menampilkan modal form saat tombol "Tambah" diklik
+            // Tampilkan modal form
             $('#myBtn').click(function() {
-                $('#upsertData')[0].reset(); // Reset input form
-                $('.text-danger').text(''); // Hapus pesan error lama
-                $('#id').val(''); // Kosongkan input ID
+                $('#upsertData')[0].reset();
+                $('.text-danger').text('');
+                $('#id').val('');
                 var modal = new bootstrap.Modal(document.getElementById('formDataModal'));
                 modal.show();
             });
 
-            // Mengambil dan menampilkan data produk hukum ke DataTable
             function getData() {
                 $.ajax({
                     url: '/v1/prosedur',
@@ -74,49 +79,74 @@
                     dataType: 'json',
                     success: function(response) {
                         console.log(response);
-                        let tableBody = "";
+
+                        if ($.fn.DataTable.isDataTable('#loadData')) {
+                            $('#loadData').DataTable().clear().destroy();
+                        }
+
+                        let tableBody = '';
                         $.each(response.data, function(index, item) {
-                            tableBody += "<tr>";
-                            tableBody += "<td>" + (index + 1) + "</td>";
-                            tableBody += "<td>";
-                            tableBody += "<a href='/uploads/file-prosedur/" + item
-                                .file_prosedur + "' download='" + item.file_prosedur +
-                                "' class='btn btn-outline-primary'><i class='fa-solid fa-eye pr-2'></i>Detail</a>";
-                            tableBody +=
-                                "<button type='button' class='btn btn-outline-danger delete-confirm' data-id='" +
-                                item.id + "'><i class='fa fa-trash'></i></button>";
-                            tableBody += "</td>";
-                            tableBody += "</tr>";
+                            tableBody += `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${item.name || 'Tidak ada nama'}</td>
+                        <td>
+                            <a href='/uploads/file-prsedur/${item.file_prosedur}'
+                               download='${item.file_prosedur}'
+                               class='btn btn-outline-primary'>
+                                <i class='fa-solid fa-download pr-2'></i>Unduh
+                            </a>
+                        </td>
+                        <td>
+                            <button type='button'
+                                    class='btn btn-outline-danger delete-confirm'
+                                    data-id='${item.id}'>
+                                <i class='fa fa-trash'></i>
+                            </button>
+                        </td>
+                    </tr>`;
                         });
-                        $("#loadData tbody").html(tableBody);
+
+                        $('#tbody').html(tableBody);
+
                         $('#loadData').DataTable({
-                            "responsive": true,
-                            "lengthChange": true,
-                            "lengthMenu": [10, 20, 30, 40, 50],
-                            "autoWidth": false,
+                            responsive: true,
+                            lengthChange: true,
+                            lengthMenu: [10, 20, 30, 40, 50],
+                            autoWidth: false,
+                            language: {
+                                search: "Cari:",
+                                lengthMenu: "Tampilkan _MENU_ data",
+                                info: "Menampilkan _START_ hingga _END_ dari _TOTAL_ data",
+                                paginate: {
+                                    first: "Awal",
+                                    last: "Akhir",
+                                    next: "Berikutnya",
+                                    previous: "Sebelumnya"
+                                }
+                            }
                         });
                     },
                     error: function() {
-                        console.log("Gagal mengambil data");
+                        console.log("Gagal mengambil data dari server");
                     }
                 });
             }
+
             getData();
 
-            // Pengaturan CSRF Token
+            // CSRF Token setup
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
 
-            // Menyimpan data baru atau memperbarui data
+            // Simpan atau update data
             $('#simpanData').click(function(e) {
-                $('.text-danger').text(''); // Menghapus pesan error
                 e.preventDefault();
-
+                $('.text-danger').text('');
                 let formData = new FormData($('#upsertData')[0]);
-                loadingAlert();
 
                 $.ajax({
                     type: 'POST',
@@ -127,107 +157,51 @@
                     success: function(response) {
                         console.log(response);
 
-                        Swal.close();
                         if (response.code === 422) {
-                            let errors = response.errors;
-                            $.each(errors, function(key, value) {
-                                $('#' + key + '-error').text(value[0]);
+                            $.each(response.errors, function(key, value) {
+                                $(`#${key}-error`).text(value[0]);
                             });
                         } else if (response.code === 200) {
-                            successAlert();
-                            getData(); // Reload data table
-                        } else {
-                            errorAlert();
+                            Swal.fire('Berhasil!', 'Data berhasil disimpan!', 'success');
+                            $('#formDataModal').modal('hide');
+                            getData();
                         }
                     },
-                    error: function(xhr, status, error) {
-                        console.error(xhr.responseText);
-                        Swal.close();
-                        errorAlert();
+                    error: function() {
+                        Swal.fire('Error!', 'Terjadi kesalahan!', 'error');
                     }
                 });
             });
 
-            // Menampilkan alert loading
-            function loadingAlert() {
-                Swal.fire({
-                    title: 'Loading...',
-                    text: 'Please wait',
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-            }
-
-            // Alert sukses
-            function successAlert() {
-                Swal.fire({
-                    title: 'Berhasil!',
-                    icon: 'success',
-                    showConfirmButton: false,
-                    timer: 1000,
-                });
-            }
-
-            // Alert error
-            function errorAlert() {
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Terjadi kesalahan!',
-                    icon: 'error',
-                    showConfirmButton: false,
-                    timer: 1000,
-                });
-            }
-
-            // Konfirmasi penghapusan data
+            // Hapus data
             $(document).on('click', '.delete-confirm', function() {
                 let id = $(this).data('id');
-
-                function deleteData() {
-                    $.ajax({
-                        type: 'DELETE',
-                        url: `/v1/prosedur/delete/${id}`,
-                        success: function(response) {
-                            if (response.code === 200) {
-                                successAlert();
-                                getData(); // Reload data table setelah penghapusan
-                            } else {
-                                errorAlert();
-                            }
-                        },
-                        error: function(xhr, status, error) {
-                            console.error(xhr.responseText);
-                            errorAlert();
-                        }
-                    });
-                }
-
-                confirmAlert('Apakah Anda yakin ingin menghapus data?', deleteData);
-            });
-
-            // Konfirmasi dengan SweetAlert
-            function confirmAlert(message, callback) {
                 Swal.fire({
-                    title: '<span style="font-size: 22px">Konfirmasi!</span>',
-                    text: message,
+                    title: 'Konfirmasi!',
+                    text: 'Apakah Anda yakin ingin menghapus data ini?',
+                    icon: 'warning',
                     showCancelButton: true,
-                    showConfirmButton: true,
-                    cancelButtonText: 'Tidak',
                     confirmButtonText: 'Ya',
-                    reverseButtons: true,
-                    confirmButtonColor: '#063158',
-                    cancelButtonColor: '#EFEFEF',
-                    customClass: {
-                        cancelButton: 'text-dark'
-                    }
+                    cancelButtonText: 'Tidak',
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        callback();
+                        $.ajax({
+                            type: 'DELETE',
+                            url: `/v1/prosedur/delete/${id}`,
+                            success: function(response) {
+                                if (response.code === 200) {
+                                    Swal.fire('Berhasil!', 'Data berhasil dihapus!',
+                                        'success');
+                                    getData();
+                                }
+                            },
+                            error: function() {
+                                Swal.fire('Error!', 'Terjadi kesalahan!', 'error');
+                            }
+                        });
                     }
                 });
-            }
+            });
         });
     </script>
 @endsection

@@ -26,6 +26,11 @@ Route::get('/', function () {
     return view('Web.Home');
 });
 
+Route::get('/data', function () {
+    return view('Web.Prosedur');
+});
+
+
 // Route api authentication
 Route::middleware('guest')->group(function () {
     // ui login
