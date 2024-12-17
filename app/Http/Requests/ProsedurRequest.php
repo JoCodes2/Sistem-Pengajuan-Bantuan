@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ProsedurRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class ProsedurRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -19,10 +21,31 @@ class ProsedurRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
+    public function rules()
+    {
+        $rules = [
+            'file_prosedur' => 'required|file|mimes:pdf|max:2048',
+
+        ];
+        return $rules;
+    }
+    public function messages()
     {
         return [
-            //
+            'file_prosedur.required' => 'File prosedur wajib diupload.',
+            'file_prosedur.file' => 'File prosedur harus berupa file.',
+            'file_prosedur.mimes' => 'File yang diupload harus dalam format pdf.',
+            'file_prosedur.max' => 'File prosedur tidak boleh lebih dari 2 MB.',
+
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'code' => 422,
+            'message' => 'Check your validation',
+            'errors' => $validator->errors()
+        ]));
     }
 }

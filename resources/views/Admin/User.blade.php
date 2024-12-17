@@ -15,6 +15,7 @@
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
+                        <th>Email</th>
                         <th>Password</th>
                         <th>Jabatan</th>
                         <th>Hak Akses</th>
@@ -26,6 +27,8 @@
                 </tbody>
             </table>
         </div>
+
+        <!-- Modal -->
 
         <div class="modal fade show" id="formDataModal" tabindex="-1" aria-labelledby="formDataModalLabel"
             aria-hidden="true">
@@ -44,6 +47,12 @@
                                 <input type="text" class="form-control" name="name" id="name"
                                     placeholder="input nama">
                                 <small id="name-error" class="text-danger"></small>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" class="form-control" name="email" id="email"
+                                    placeholder="input email">
+                                <small id="email-error" class="text-danger"></small>
                             </div>
                             <div class="form-group">
                                 <label for="password" id="passwordLabel">Password</label>
@@ -67,8 +76,8 @@
                                 <label for="role">Hak Akses</label>
                                 <select class="form-control" name="role" id="role">
                                     <option value="">Pilih Role</option>
+                                    <option value="super admin">Super Admin</option>
                                     <option value="admin">Admin</option>
-                                    <option value="user">User</option>
                                 </select>
                                 <small id="role-error" class="text-danger"></small>
                             </div>
@@ -105,6 +114,7 @@
                             table.row.add([
                                 index + 1,
                                 item.name,
+                                item.email,
                                 "****", // Menyembunyikan password
                                 item.position,
                                 item.role,
@@ -198,6 +208,7 @@
                         $('#formDataModal').modal('show');
                         $('#id').val(response.data.id);
                         $('#name').val(response.data.name);
+                        $('#email').val(response.data.email);
                         $('#passwordLabel').text('Masukan password baru')
 
                         $('#position').val(response.data.position);

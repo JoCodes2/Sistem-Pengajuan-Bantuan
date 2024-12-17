@@ -25,10 +25,14 @@ class UserRequest extends FormRequest
     {
         $rules = [
             'name' => 'required|max:50',
+            'email' => $this->is('v1/user/update/*')
+                ? 'required|email|unique:users,email,' . $this->id
+                : 'required|email|unique:users,email',
+
             'password' => $this->is('v1/user/update/*') ? 'nullable|min:8'  : 'required|min:8',
             'password_confirmation' => $this->is('v1/user/update/*') ? 'nullable|same:password'  : 'required|same:password',
             'position' => 'required|max:50',
-            'role' => 'required|in:admin,user',
+            'role' => 'required|in:super admin,admin',
         ];
         return $rules;
     }
@@ -38,6 +42,8 @@ class UserRequest extends FormRequest
         return [
             'name.required' => 'Nama wajib diisi.',
             'name.max' => 'Nama tidak boleh lebih dari 50 karakter.',
+            'email.required' => 'Email wajib diisi',
+            'email.unique' => 'Email tidak boleh sama',
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password harus memiliki setidaknya 8 karakter.',
             'password_confirmation.required' => 'Konfirmasi Password wajib diisi.',

@@ -6,6 +6,8 @@ use App\Http\Controllers\CMS\GrupController;
 use App\Http\Controllers\CMS\MemberGrupController;
 use App\Http\Controllers\CMS\SubmissionsController;
 use App\Http\Controllers\CMS\UserController;
+use App\Http\Controllers\CMS\ProsedurController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +30,9 @@ Route::get('/dashboard/members-count', [DashboardController::class, 'getMemberCo
 
 Route::get('/', function () {
     return view('Web.Home');
+});
+Route::get('/prosedur', function () {
+    return view('Admin.Prosedur');
 });
 Route::get('/submissions', function () {
     return view('Admin.Submissions');
@@ -57,7 +62,7 @@ Route::prefix('v1/user')->controller(UserController::class)->group(function () {
     Route::delete('/delete/{id}', 'deleteData');
 });
 
-// route  api user //
+// route  api  //
 Route::prefix('v1/grup')->controller(GrupController::class)->group(function () {
     Route::get('/', 'getAllData');
     Route::post('/create', 'createData');
@@ -100,3 +105,11 @@ Route::get('/login', function () {
 });
 Route::post('auth/login', [AuthController::class, 'login']);
 Route::post('auth/logout', [AuthController::class, 'logout']);
+// route produk hukum //
+Route::prefix('v1/prosedur')->controller(ProsedurController::class)->group(function () {
+    Route::get('/', 'getAllData');
+    Route::post('/create', 'createData');
+    Route::get('/get/{id}', 'getDataById');
+    Route::post('/update/{id}', 'updateDataById');
+    Route::delete('/delete/{id}', 'deleteData');
+});
