@@ -65,19 +65,27 @@
                     method: "GET",
                     dataType: "json",
                     success: function(response) {
-                        console.log(response);
                         let table = $("#loadData").DataTable(); // Inisialisasi DataTable hanya sekali
                         table.clear(); // Hapus data lama dari tabel
 
-                        // Menambahkan data baru ke tabel
-                        $.each(response.data, function(index, item) {
+                        if (response.code === 200 && response.data && response.data.length > 0) {
+                            // Menambahkan data baru ke tabel
+                            $.each(response.data, function(index, item) {
+                                table.row.add([
+                                    index + 1,
+                                    item.grup_name,
+                                    `<button type='button' class='btn btn-outline-primary edit-btn' data-id='${item.id}'><i class='fa-solid fa-edit'></i></button>
+                         <button type='button' class='btn btn-outline-danger delete-confirm' data-id='${item.id}'><i class='fa fa-trash'></i></button>`
+                                ]);
+                            });
+                        } else {
+                            // Menampilkan pesan "Data tidak ditemukan" di tabel
                             table.row.add([
-                                index + 1,
-                                item.grup_name,
-                                `<button type='button' class='btn btn-outline-primary edit-btn' data-id='${item.id}'><i class='fa-solid fa-edit'></i></button>
-                <button type='button' class='btn btn-outline-danger delete-confirm' data-id='${item.id}'><i class='fa fa-trash'></i></button>`
+                                '',
+                                `<td colspan="2" class="text-center"><i class="fa-solid fa-face-sad-tear px-1"></i> Data tidak ditemukan</td>`,
+                                ''
                             ]);
-                        });
+                        }
 
                         table.draw(); // Render ulang tabel
                     },
@@ -86,6 +94,7 @@
                     }
                 });
             }
+
 
             getData();
 
