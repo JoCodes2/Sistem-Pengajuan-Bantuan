@@ -140,16 +140,16 @@
                             });
                         } else {
                             successAlert();
-                            if (response.user && response.user.role) {
-                                switch (response.user.role.toLowerCase()) {
+                            if (response.data.user && response.data.user.role) {
+                                switch (response.data.user.role.toLowerCase()) {
                                     case 'super admin':
-                                        window.location.href = '/';
+                                        window.location.href = '/dashboard';
                                         break;
                                     case 'admin':
-                                        window.location.href = '/cms-dashboard';
+                                        window.location.href = '/disposision';
                                         break;
                                     default:
-                                        window.location.href = '/';
+                                        window.location.href = '/dashboard';
                                         break;
                                 }
                             } else {
