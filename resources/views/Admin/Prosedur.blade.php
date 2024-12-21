@@ -78,8 +78,6 @@
                     method: 'GET',
                     dataType: 'json',
                     success: function(response) {
-                        console.log(response);
-
                         if ($.fn.DataTable.isDataTable('#loadData')) {
                             $('#loadData').DataTable().clear().destroy();
                         }
@@ -87,24 +85,24 @@
                         let tableBody = '';
                         $.each(response.data, function(index, item) {
                             tableBody += `
-                    <tr>
-                        <td>${index + 1}</td>
-                        <td>${item.name || 'Tidak ada nama'}</td>
-                        <td>
-                            <a href='/uploads/file-prsedur/${item.file_prosedur}'
-                               download='${item.file_prosedur}'
-                               class='btn btn-outline-primary'>
-                                <i class='fa-solid fa-download pr-2'></i>Unduh
-                            </a>
-                        </td>
-                        <td>
-                            <button type='button'
-                                    class='btn btn-outline-danger delete-confirm'
-                                    data-id='${item.id}'>
-                                <i class='fa fa-trash'></i>
-                            </button>
-                        </td>
-                    </tr>`;
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${item.name || 'Tidak ada nama'}</td>
+                                <td>
+                                    <a href='/uploads/file-prosedur/${item.file_prosedur}'
+                                       download='${item.file_prosedur}'
+                                       class='btn btn-outline-primary'>
+                                        <i class='fa-solid fa-download pr-2'></i>Unduh
+                                    </a>
+                                </td>
+                                <td>
+                                    <button type='button'
+                                            class='btn btn-outline-danger delete-confirm'
+                                            data-id='${item.id}'>
+                                        <i class='fa fa-trash'></i>
+                                    </button>
+                                </td>
+                            </tr>`;
                         });
 
                         $('#tbody').html(tableBody);
@@ -128,7 +126,7 @@
                         });
                     },
                     error: function() {
-                        console.log("Gagal mengambil data dari server");
+                        errorAlert('Gagal mengambil data dari server');
                     }
                 });
             }
@@ -148,6 +146,8 @@
                 $('.text-danger').text('');
                 let formData = new FormData($('#upsertData')[0]);
 
+                loadingAllert();
+
                 $.ajax({
                     type: 'POST',
                     url: '/v1/prosedur/create',
@@ -155,53 +155,135 @@
                     contentType: false,
                     processData: false,
                     success: function(response) {
-                        console.log(response);
-
+                        Swal.close();
                         if (response.code === 422) {
                             $.each(response.errors, function(key, value) {
                                 $(`#${key}-error`).text(value[0]);
                             });
                         } else if (response.code === 200) {
-                            Swal.fire('Berhasil!', 'Data berhasil disimpan!', 'success');
+                            successAlert('Data berhasil disimpan!');
                             $('#formDataModal').modal('hide');
                             getData();
+                        } else {
+                            errorAlert('Terjadi kesalahan!');
                         }
                     },
                     error: function() {
-                        Swal.fire('Error!', 'Terjadi kesalahan!', 'error');
+                        Swal.close();
+                        errorAlert('Terjadi kesalahan saat menyimpan data!');
                     }
                 });
             });
 
             // Hapus data
+            // $(document).on('click', '.delete-confirm', function() {
+            //     let id = $(this).data('id');
+            //     confirmAlert('Apakah Anda yakin ingin menghapus data ini?', function() {
+            //         loadingAllert();
+            //         $.ajax({
+            //             type: 'DELETE',
+            //             url: `/v1/prosedur/delete/${id}`,
+            //             success: function(response) {
+            //                 Swal.close();
+            //                 if (response.code === 200) {
+            //                     successAlert('Data berhasil dihapus!');
+            //                     getData();
+            //                 } else {
+            //                     errorAlert('Gagal menghapus data!');
+            //                 }
+            //             },
+            //             error: function() {
+            //                 Swal.close();
+            //                 errorAlert('Terjadi kesalahan saat menghapus data!');
+            //             }
+            //         });
+            //     });
+            // });
+
             $(document).on('click', '.delete-confirm', function() {
                 let id = $(this).data('id');
+
+                // Function to delete data
+                function deleteData() {
+                    $.ajax({
+                        type: 'DELETE',
+                        url: `/v1/prosedur/delete/${id}`,
+                        success: function(response) {
+                            if (response.code === 200) {
+                                successAlert();
+                                reloadBrowsers();
+                            } else {
+                                errorAlert();
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText);
+                        }
+                    });
+                }
+
+                // Show confirmation alert
+                confirmAlert('Apakah Anda yakin ingin menghapus data?', deleteData);
+            });
+
+            // Alert functions
+            function successAlert(message) {
                 Swal.fire({
-                    title: 'Konfirmasi!',
-                    text: 'Apakah Anda yakin ingin menghapus data ini?',
-                    icon: 'warning',
+                    title: 'Berhasil!',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            }
+
+            function errorAlert(message) {
+                Swal.fire({
+                    title: 'Error',
+                    text: message || 'Terjadi kesalahan!',
+                    icon: 'error',
+                    showConfirmButton: false,
+                    timer: 1000,
+                });
+            }
+
+            function confirmAlert(message, callback) {
+                Swal.fire({
+                    title: '<span style="font-size: 22px"> Konfirmasi!</span>',
+                    text: message,
                     showCancelButton: true,
-                    confirmButtonText: 'Ya',
+                    showConfirmButton: true,
                     cancelButtonText: 'Tidak',
+                    confirmButtonText: 'Ya',
+                    reverseButtons: true,
+                    confirmButtonColor: '#063158 ',
+                    cancelButtonColor: '#EFEFEF',
+                    cancelButtonText: 'Tidak',
+                    customClass: {
+                        cancelButton: 'text-dark'
+                    }
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        $.ajax({
-                            type: 'DELETE',
-                            url: `/v1/prosedur/delete/${id}`,
-                            success: function(response) {
-                                if (response.code === 200) {
-                                    Swal.fire('Berhasil!', 'Data berhasil dihapus!',
-                                        'success');
-                                    getData();
-                                }
-                            },
-                            error: function() {
-                                Swal.fire('Error!', 'Terjadi kesalahan!', 'error');
-                            }
-                        });
+                        callback();
                     }
                 });
-            });
+            }
+
+            function reloadBrowsers() {
+                setTimeout(function() {
+                    location.reload();
+                }, 1500);
+            }
+
+            function loadingAllert() {
+                Swal.fire({
+                    title: 'Loading...',
+                    text: 'Please wait',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            }
         });
     </script>
 @endsection
