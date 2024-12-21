@@ -155,11 +155,15 @@
                             );
                             renderTable();
                         } else {
-                            errorAlert('Data tidak ditemukan!');
+                            $("#loadData tbody").append(`
+                        <tr>
+                            <td colspan="8" class="text-center"><i class="fa-solid fa-face-sad-tear px-1"></i>Data tidak ditemukan</td>
+                        </tr>
+                    `);
                         }
                     },
                     error: function() {
-                        errorAlert('Gagal memuat data!');
+                        console.log("Failed to get data from server");
                     }
                 });
             }
