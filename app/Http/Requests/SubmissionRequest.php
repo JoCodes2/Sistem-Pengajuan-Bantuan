@@ -36,7 +36,7 @@ class SubmissionRequest extends FormRequest
                 'members.*.nik' => [
                     'required',
                     'string',
-                    'max:16',
+                    'digits:16',
                     Rule::unique('member_grups', 'nik')->where(function ($query) {
                         $cutoffDate = Carbon::now()->subYears(5);
                         return $query->where('created_at', '>=', $cutoffDate);
@@ -83,7 +83,7 @@ class SubmissionRequest extends FormRequest
             'members.*.nik.max' => 'Nik maksimal 16 karakter.',
             'members.*.nik.unique' => 'NIK Anggota sudah terdaftar dalam kelompok lain dalam 5 tahun terakhir.',
             'members.*.nik.custom' => 'NIK Anggota tidak boleh duplikat dalam kelompok yang sama.',
-
+            'members.*.nik.digits' => 'NIK harus terdiri dari 16 digit.',
             'members.*.status.required' => 'Status Anggota wajib diisi.',
             'id_user' => 'Tujuan disposisi wajib diisi.',
         ];

@@ -37,9 +37,9 @@
                       <div class="dropdown-divider"></div>
                     </li>
                     <li>
-                      <button class="dropdown-item" >
-                        <i class="bx bx-power-off me-2"></i>
-                        <span class="align-middle" id="btnLogout">Log Out</span>
+                      <button class="dropdown-item" id="btnLogout" >
+                        <i class="bx bx-power-off me-2" ></i>
+                        <span class="align-middle" >Log Out</span>
                       </button>
                     </li>
                   </ul>

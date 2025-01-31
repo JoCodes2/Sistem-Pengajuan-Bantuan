@@ -3,9 +3,6 @@
     <div class="card">
         <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
             <h3 class="m-0 font-weight-bold "><i class="fa-solid fa-book pr-2"></i>Kelompok</h3>
-            <button type="button" class="btn btn-outline-primary ml-auto" id="myBtn">
-                <i class="fa-solid fa-plus pr-2"></i>Tambah Data
-            </button>
         </div>
 
         <!-- /.card-header -->
@@ -74,8 +71,8 @@
                                 table.row.add([
                                     index + 1,
                                     item.grup_name,
-                                    `<button type='button' class='btn btn-outline-primary edit-btn' data-id='${item.id}'><i class='fa-solid fa-edit'></i></button>
-                         <button type='button' class='btn btn-outline-danger delete-confirm' data-id='${item.id}'><i class='fa fa-trash'></i></button>`
+                                    `<button type='button' class='btn btn-outline-primary btn-sm edit-btn' data-id='${item.id}'><i class='fa-solid fa-edit'></i></button>
+                         <button type='button' class='btn btn-outline-danger btn-sm delete-confirm' data-id='${item.id}'><i class='fa fa-trash'></i></button>`
                                 ]);
                             });
                         } else {

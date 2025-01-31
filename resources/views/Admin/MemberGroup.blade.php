@@ -55,7 +55,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Edit Member</h5>
+                        <h5 class="modal-title">Edit Anggota</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -63,28 +63,28 @@
                             <input type="hidden" name="id" id="id">
                             <input type="hidden" name="id_grup" id="id_grup">
                             <div class="mb-3">
-                                <label for="name" class="form-label">Name</label>
+                                <label for="name" class="form-label">Nama</label>
                                 <input type="text" name="name" id="name" class="form-control"
                                     placeholder="input name">
                                 <small id="name-error" class="text-danger"></small>
 
                             </div>
                             <div class="mb-3">
-                                <label for="address" class="form-label">Address</label>
+                                <label for="address" class="form-label">Alamat</label>
                                 <input type="text" name="address" id="address" class="form-control"
                                     placeholder="input address">
                                 <small id="address-error" class="text-danger"></small>
 
                             </div>
                             <div class="mb-3">
-                                <label for="place_birth" class="form-label">Place of Birth</label>
+                                <label for="place_birth" class="form-label">Tempat Lahir</label>
                                 <input type="text" name="place_birth" id="place_birth" class="form-control"
                                     placeholder="input place birth">
                                 <small id="place_birth-error" class="text-danger"></small>
 
                             </div>
                             <div class="mb-3">
-                                <label for="date_birth" class="form-label">Date of Birth</label>
+                                <label for="date_birth" class="form-label">Tanggal Lahir</label>
                                 <input type="date" name="date_birth" id="date_birth" class="form-control"
                                     placeholder="date birth">
                                 <small id="date_birth-error" class="text-danger"></small>
@@ -109,7 +109,7 @@
                                 <small id="status-error" class="text-danger"></small>
                             </div>
 
-                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                            <button type="submit" class="btn btn-primary">Simpan</button>
                         </form>
                     </div>
                 </div>
@@ -198,8 +198,8 @@
                                 <td>${item.nik}</td>
                                 <td>${item.status}</td>
                                 <td>
-                                    <button class="btn btn-sm btn-primary btn-edit" data-id="${item.id}">Edit</button>
-                                    <button class="btn btn-sm btn-danger btn-delete">Delete</button>
+                                    <button class="btn btn-sm btn-outline-primary btn-edit" data-id="${item.id}"><i class='fa-solid fa-edit'></i></button>
+                                    <button class="btn btn-sm btn-outline-danger btn-delete"><i class='fa fa-trash'></i></button>
                                 </td>
                             </tr>
                         `);
