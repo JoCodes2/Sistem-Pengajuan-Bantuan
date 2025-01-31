@@ -118,8 +118,8 @@
                                 "****", // Menyembunyikan password
                                 item.position,
                                 item.role,
-                                `<button type='button' class='btn btn-outline-primary edit-btn' data-id='${item.id}'><i class='fa-solid fa-edit'></i></button>
-                    <button type='button' class='btn btn-outline-danger delete-confirm' data-id='${item.id}'><i class='fa fa-trash'></i></button>`
+                                `<button type='button' class='btn btn-outline-primary btn-sm edit-btn' data-id='${item.id}'><i class='fa-solid fa-edit'></i></button>
+                    <button type='button' class='btn btn-outline-danger btn-sm delete-confirm' data-id='${item.id}'><i class='fa fa-trash'></i></button>`
                             ]);
                         });
 

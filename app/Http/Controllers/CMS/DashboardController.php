@@ -27,6 +27,7 @@ class DashboardController extends Controller
         try {
             // Hitung jumlah pengajuan
             $count = Submission::count();
+            $countApproved = Submission::where('status_submissions', 'approved')->count();
 
             // Berikan respon JSON
             return response()->json([
@@ -34,6 +35,7 @@ class DashboardController extends Controller
                 'message' => 'Total submissions count retrieved successfully.',
                 'data' => [
                     'total_submissions' => $count,
+                    'total_approved_submissions' => $countApproved
                 ],
             ], 200);
         } catch (\Throwable $th) {

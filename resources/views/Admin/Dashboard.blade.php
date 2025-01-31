@@ -42,7 +42,7 @@
                     <div class="card-body text-center">
                         <i class="fas fa-check-circle fa-3x text-info mb-3"></i>
                         <h5 class="card-title fw-bold">Pengajuan Disetujui</h5>
-                        <h2 class="display-4 fw-bold">120</h2>
+                        <h2 class="display-4 fw-bold" id="statusApproved"></h2>
                         <p class="text-muted">Jumlah pengajuan yang telah disetujui.</p>
                     </div>
                 </div>
@@ -53,32 +53,41 @@
 
 @section('scripts')
     <script>
-        // Fetch total submissions count via AJAX
-        document.addEventListener('DOMContentLoaded', function() {
-            // Fetch total submissions
-            fetch('/dashboard/submissions-count')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        document.getElementById('total-submissions').textContent = data.data.total_submissions;
+        $(document).ready(function() {
+            // Fetch total submissions count via AJAX
+            $.ajax({
+                url: '/dashboard/submissions-count',
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        $('#total-submissions').text(response.data.total_submissions);
+                        $('#statusApproved').text(response.data.total_approved_submissions);
                     } else {
-                        console.error(data.message);
+                        console.error(response.message);
                     }
-                })
-                .catch(error => console.error('Error:', error));
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
 
-            // Fetch total members count
-            fetch('/dashboard/members-count')
-                .then(response => response.json()) // Parse JSON response
-                .then(data => {
-                    if (data.status === 'success') {
-                        // Update the total members count
-                        document.getElementById('total-members').textContent = data.data.total_members;
+            // Fetch total members count via AJAX
+            $.ajax({
+                url: '/dashboard/members-count',
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        $('#total-members').text(response.data.total_members);
                     } else {
-                        console.error(data.message);
+                        console.error(response.message);
                     }
-                })
-                .catch(error => console.error('Error:', error));
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                }
+            });
         });
     </script>
 @endsection
