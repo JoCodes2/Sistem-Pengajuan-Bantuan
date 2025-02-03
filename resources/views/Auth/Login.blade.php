@@ -6,7 +6,7 @@
     <title>Login</title>
 
     <meta name="description" content="">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Favicon -->
     @include('Layouts.Styles')
     <!-- Page -->
@@ -18,6 +18,14 @@
         }
         .content-wrapper {
         padding-bottom: 0px !important;
+        }
+        .social-icons a {
+            margin: 0 10px;
+            color: #333;
+        }
+        .img-logo{
+            width: 50px;
+            height: 50px;
         }
     </style>
   </head>
@@ -63,6 +71,10 @@
                   <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
                 </div>
               </form>
+              <div class="social-icons text-center mt-4">
+                  <a href="#"><img src="{{ asset('assets/assets/img/stmikadhigunaicon.svg') }}" alt="Logo" class="img-fluid img-logo rounded" ></a>
+                  <a href="#"><img src="{{ asset('assets/assets/img/20241107_171817.jpg') }}" alt="Logo" class="img-fluid img-logo rounded" ></a>
+              </div>
             </div>
           </div>
           <!-- /Register -->

@@ -45,7 +45,7 @@
                             <div class="form-group">
                                 <label for="file_prosedur">File Prosedur</label>
                                 <input type="file" class="form-control" name="file_prosedur" id="file_prosedur"
-                                    accept="application/pdf">
+                                   >
                                 <small id="file_prosedur-error" class="text-danger"></small>
                             </div>
                         </form>
