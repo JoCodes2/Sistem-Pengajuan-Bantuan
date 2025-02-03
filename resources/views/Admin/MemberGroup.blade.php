@@ -146,7 +146,6 @@
                     dataType: 'json',
                     success: function(response) {
                         if (response.code === 200) {
-                            // Transformasi data API
                             allMembers = response.data.flatMap(grup =>
                                 grup.member_grup.map(member => ({
                                     grup_name: grup.grup_name,
@@ -174,7 +173,20 @@
                 tbody.empty();
 
                 const groupedData = groupBy(allMembers, 'grup_name');
-
+                function getStatusMember(status) {
+                    switch (status) {
+                        case 'marry':
+                            return 'Kawin';
+                        case 'single':
+                            return 'Belum Kawin';
+                        case 'divorced alive':
+                            return 'Cerai Hidup';
+                        case 'divorced dead':
+                            return 'Cerai Mati';
+                        default:
+                            return 'Not Found';
+                    }
+                }
                 if (Object.keys(groupedData).length === 0) {
                     tbody.append('<tr><td colspan="8">Data tidak ditemukan</td></tr>');
                 } else {
@@ -196,7 +208,7 @@
                                 <td>${item.place_birth}</td>
                                 <td>${formatDate(item.date_birth)}</td>
                                 <td>${item.nik}</td>
-                                <td>${item.status}</td>
+                                <td>${getStatusMember(item.status)}</td>
                                 <td>
                                     <button class="btn btn-sm btn-outline-primary btn-edit" data-id="${item.id}"><i class='fa-solid fa-edit'></i></button>
                                     <button class="btn btn-sm btn-outline-danger btn-delete"><i class='fa fa-trash'></i></button>

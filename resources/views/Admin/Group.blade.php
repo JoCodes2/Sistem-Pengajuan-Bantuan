@@ -12,7 +12,7 @@
                     <tr>
                         <th>No</th>
                         <th>Nama Kelompok</th>
-                        <th>Actions</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody id="tbody">

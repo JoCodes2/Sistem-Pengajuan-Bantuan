@@ -36,7 +36,7 @@
                     <th>Deskripsi Pengajuan</th>
                     <th>File Proposal</th>
                     <th>Status Pengajuan</th>
-                    <th>Actions</th>
+                    <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody class=" text-center">
