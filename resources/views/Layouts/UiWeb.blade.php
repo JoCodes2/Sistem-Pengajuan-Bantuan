@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="{{ asset('assets/assets/logopemprov.png')}}" type="image/png" />
+    <link rel="icon" href="{{ asset('assets/assets/logopemprov.png') }}" type="image/png" />
     <title>Sistem Pengaduan Bantuan</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
@@ -26,13 +26,13 @@
     </main>
     <!-- footer -->
     <!-- footer -->
-    <section id="footer" >
+    <section id="footer">
         <div class="container pt-3">
             <div class=" col-12 footer-content mx-auto">
                 <div class="row d-flex justify-content-center text-center text-light">
                     <div class="col-md-4 justify-content-center ">
                         <div>
-                            <h5 class="font-popins fw-bold">Sistem Inforamsi Pengajuan Bantuan</h5>
+                            <h5 class="font-popins fw-bold">Sistem Informasi Pengajuan Bantuan</h5>
                             <p class="font-kanit">Terima kasih sudah menggunakan layanan kami.</p>
                         </div>
                     </div>
@@ -42,18 +42,16 @@
                             <ul class="list-unstyled font-kanit text-light">
                                 <li><a href="#" class="nav-footer">Home</a></li>
                                 <li><a href="#" class="nav-footer">Data</a></li>
-                                <li><a href="#" class="nav-footer">Contact</a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="col-md-4 justify-content-center">
-                        <h6 class="font-popins fw-bold ">Contact</h6>
                         <div>
                             <ul class=" list-unstyled justify-content-center text-center ">
-                                <li><i class="fa-solid fa-envelope"></i>jocodes@gmail.com</a>
+                                <li><i class="fa-solid fa-envelope"></i>dkp@sulteng.co.id</a>
                                 </li>
                                 <li>
-                                    <i class="fas fa-map-marker-alt"></i>Jln.Soekarno-Hatta
+                                    <i class="fas fa-map-marker-alt"></i>Jln. Undata No. 7
                                 </li>
                             </ul>
                         </div>
