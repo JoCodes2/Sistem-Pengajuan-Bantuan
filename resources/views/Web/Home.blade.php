@@ -378,7 +378,7 @@
                     }
                 });
             }
-            confirmAlert('Apakah semua data suda benar?', saveData);
+            confirmAlert('Apakah semua data sudah benar?', saveData);
         });
     });
 </script>
