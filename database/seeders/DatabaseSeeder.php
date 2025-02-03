@@ -18,16 +18,16 @@ class DatabaseSeeder extends Seeder
     {
         $users = [
             [
-                'name' => 'JoCodes',
-                'email' => 'jocodes@gmail.com',
-                'position' => 'Software Engineer',
+                'name' => 'Moh Arif',
+                'email' => 'moharif@gmail.com',
+                'position' => 'Kepala Dinas Perikanan',
                 'role' => 'super admin',
                 "password" => Hash::make('12345678')
             ],
             [
-                'name' => 'Administrator',
-                'email' => 'administrator@gmail.com',
-                'position' => 'Project Manager',
+                'name' => 'Fatur',
+                'email' => 'fatur@gmail.com',
+                'position' => 'Staf Perikanan Tangkap',
                 'role' => 'admin',
                 "password" => Hash::make('12345678')
             ],
